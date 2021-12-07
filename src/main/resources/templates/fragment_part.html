@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- <title>かんたんせいきゅうしょ</title> -->
+<!-- <link rel="stylesheet"　href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+<body>
+
+<div th:fragment="frag_header">
+	<div class="header">
+<!-- 			<nav class="navbar navbar-default"> -->
+		<div class="container-fluid mb-3">
+			<nav class="navbar navbar-light bg-light  px-2">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header ">
+					<a class="navbar-brand" href="home.html" th:href="@{/home}">
+					<!-- 企業ロゴ -->
+					<img
+						alt="main log"
+						src="../static/img/TypingKuroshiba.png"
+						th:src="@{/img/TypingKuroshiba.png}"
+						height="35"
+					/>
+					<span>かんたん請求書</span>
+					</a>
+				</div>
+
+				<!-- searchForm -->
+				<form action="" th:action="@{/search}" id="search" class="d-flex">
+					<div class="form-group">
+					<input
+						class="form-control form-control-sm me-2"
+						type="search"
+						name="search"
+						placeholder="Search..."
+					/>
+					</div>
+					<button class="btn btn-secondary btn-sm mx-1 px-2">検索</button>
+				</form>
+				<!-- searchForm -->
+
+				<p class="navbar-text navbar-right me-3">
+					<span><a href="client-list.html" th:href="@{/show-client-list}">取引先</a></span>
+					<span><a href="client-list.html" th:href="@{/show-contact-list}">取引先担当者</a></span>
+					<span><a href="client-list.html" th:href="@{/show-item-list}">商品</a></span>
+					<span><a href="client-list.html" th:href="@{/show-trade-list}">取引</a></span>
+					<span><a href="client-list.html" th:href="@{/show-invoice-list}">請求書</a></span>
+				</p>
+				<!-- /.container-fluid -->
+			</nav>
+		</div>
+	</div>
+				<!-- /.container-fluid -->
+</div>
+
+<div th:fragment="frag_header_unlogined">
+	<div class="header">
+<!-- 			<nav class="navbar navbar-default"> -->
+		<div class="container-fluid">
+			<nav class="navbar navbar-light bg-light">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<a class="navbar-brand" href="home.html" th:href="@{/to-sign-in}">
+					<!-- 企業ロゴ -->
+					<img
+						alt="main log"
+						src="../static/img/TypingKuroshiba.png"
+						th:src="@{/img/TypingKuroshiba.png}"
+						height="35"
+					/>
+					<span>かんたん請求書</span>
+					</a>
+				</div>
+
+			<!-- /.container-fluid -->
+			</nav>
+		</div>
+	</div>
+				<!-- /.container-fluid -->
+</div>
+
+
+</body>
+</html>
