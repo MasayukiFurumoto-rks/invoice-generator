@@ -14,7 +14,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	// SpringSecurityを導入すると毎回アクセス時にSpringがログイン画面を表示してくれる
     	http.authorizeRequests().anyRequest().permitAll();
     	http.csrf().disable();	
     }

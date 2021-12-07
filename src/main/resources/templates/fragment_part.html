@@ -14,7 +14,7 @@
 		<div class="container-fluid mb-3">
 			<nav class="navbar navbar-light bg-light  px-2">
 				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header ">
+				<div class="navbar-header">
 					<a class="navbar-brand" href="home.html" th:href="@{/home}">
 					<!-- 企業ロゴ -->
 					<img
@@ -28,25 +28,35 @@
 				</div>
 
 				<!-- searchForm -->
-				<form action="" th:action="@{/search}" id="search" class="d-flex">
-					<div class="form-group">
-					<input
-						class="form-control form-control-sm me-2"
-						type="search"
-						name="search"
-						placeholder="Search..."
-					/>
-					</div>
-					<button class="btn btn-secondary btn-sm mx-1 px-2">検索</button>
-				</form>
+				<div class="navbar-text navbar-left">
+					<form action="" th:action="@{/search}" id="search" class="d-flex">
+						<div class="form-group">
+						<input
+							class="form-control form-control-sm me-2"
+							type="search"
+							name="search"
+							placeholder="Search..."
+						/>
+						</div>
+						<button class="btn btn-secondary btn-sm mx-1 px-2">検索</button>
+					</form>
+				</div> 
 				<!-- searchForm -->
 
+					
 				<p class="navbar-text navbar-right me-3">
-					<span><a href="client-list.html" th:href="@{/show-client-list}">取引先</a></span>
-					<span><a href="client-list.html" th:href="@{/show-contact-list}">取引先担当者</a></span>
-					<span><a href="client-list.html" th:href="@{/show-item-list}">商品</a></span>
-					<span><a href="client-list.html" th:href="@{/show-trade-list}">取引</a></span>
-					<span><a href="client-list.html" th:href="@{/show-invoice-list}">請求書</a></span>
+					<span class="me-3">
+						こんにちは&nbsp;<span th:text="${session.user.belongs}">株式会社〇〇</span>&nbsp;<span th:text="${session.user.name}+さん">〇〇さん</span>
+					</span>
+					<span class="me-3">
+						<span><a href="client-list.html" th:href="@{/show-client-list}">取引先</a></span>
+						<span><a href="client-list.html" th:href="@{/show-contact-list}">取引先担当者</a></span>
+						<span><a href="client-list.html" th:href="@{/show-item-list}">商品</a></span>
+						<span><a href="client-list.html" th:href="@{/show-trade-list}">取引</a></span>
+						<span><a href="client-list.html" th:href="@{/show-invoice-list}">請求書</a></span>
+					</span>
+					<span><a href="sign-in.html" th:href="@{/sign-out}">サインアウト</a></span>
+				
 				</p>
 				<!-- /.container-fluid -->
 			</nav>

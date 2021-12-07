@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users(
+id serial NOT NULL,
+name text NOT NULL,
+email text NOT NULL,
+password text NOT NULL,
+is_administrator boolean NOT NULL default false,
+deleted boolean NOT NULL default false,
+user_companies_id BIGINT UNSIGNED NOT NULL,
+FOREIGN KEY fk_user_com_id(user_companies_id) REFERENCES user_companies(id)
+);

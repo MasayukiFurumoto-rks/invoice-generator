@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS user_companies;
+
+CREATE TABLE user_companies(
+id serial NOT NULL,
+name text NOT NULL,
+deleted boolean NOT NULL default false
+);

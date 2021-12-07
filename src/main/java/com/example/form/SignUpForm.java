@@ -1,10 +1,24 @@
 package com.example.form;
 
-public class SignUpForm {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
+import lombok.Data;
+
+@Data
+public class SignUpForm {
+	
+	@NotBlank(message="氏名は必ず入力してください。")
 	private String name;
+	
+	@NotBlank(message="メールアドレスは必ず入力してください。")
+	@Email(message="メールアドレスの形式が不正です。")
 	private String email;
+	
+	@NotBlank(message="パスワードは必ず入力してください。")
 	private String password;
+
+	@NotBlank(message="確認用パスワードは必ず入力してください。")
 	private String confirmationPassword;
 	private String authenticationCode;
 
