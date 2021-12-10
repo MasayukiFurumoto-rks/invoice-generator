@@ -34,6 +34,7 @@
                 <th>商品名</th>
                 <th>単価</th>
                 <th>作成者</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -57,6 +58,15 @@
                     href="user-detail.html"
                     th:href="@{/user/showDetail?id=}+${item.createdBy.id}"
                     ><span th:text="${item.createdBy.name}">古本昌幸</span>
+                  </a>
+                </td>
+                <td>
+                  <a
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    href="item-edit.html"
+                    th:href="@{/item/edit?id=}+${item.id}"
+                    >編集
                   </a>
                 </td>
               </tr>
