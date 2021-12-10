@@ -35,7 +35,7 @@ public class UserController {
 
 	@RequestMapping("/to-sign-up")
 	public String toSignUp() {
-		return "sign-up.html";
+		return "user/sign-up.html";
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class UserController {
 	@RequestMapping("/sign-up-confirm")
 	public String signUpConfirm(SignUpForm form, Model model) {
 
-		return "sign-up-confirm.html";
+		return "user/sign-up-confirm.html";
 
 	}
 
@@ -84,7 +84,7 @@ public class UserController {
 
 	@RequestMapping("/to-sign-in")
 	public String toSignIn() {
-		return "sign-in.html";
+		return "user/sign-in.html";
 
 	}
 

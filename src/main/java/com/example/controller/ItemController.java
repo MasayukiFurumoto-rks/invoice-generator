@@ -21,13 +21,13 @@ public class ItemController {
 	public String showList(Model model) {
 		List<Item> itemList = itemService.findAll();
 		model.addAttribute("itemList", itemList);
-		return "item-list.html";
+		return "item/item-list.html";
 	}
 	
 	@RequestMapping("/showDetail")
 	public String showDetail(Model model,Integer id) {
 		Item item = itemService.findById(id);
 		model.addAttribute("item", item);
-		return "item-detail.html";
+		return "item/item-detail.html";
 	}
 }

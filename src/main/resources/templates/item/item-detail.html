@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <title>商品詳細</title>
+  </head>
+  <body>
+    <div th:insert="fragment_part :: frag_header"></div>
+    
+    
+    <div class="container">
+   	<ol class="breadcrumb">
+	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
+		<li class="breadcrumb-item"><a href="item-list.html" th:href="@{/item/showList}">商品一覧</a></li>
+		<li class="breadcrumb-item active">商品詳細</li>
+	</ol>
+	
+      <!-- table -->
+      <div class="row justify-content-center">
+        <div
+          class="
+            table-responsive
+            col-lg-offset-1
+            col-lg-10
+            col-md-offset-1
+            col-md-10
+            col-sm-12
+            col-xs-12
+          "
+        >
+          <!-- ここから上を編集する必要はありません -->
+          <h3>商品詳細</h3>
+          <table class="table table-striped">
+              <tr>
+              <th></th>
+              <th>詳細</th>
+              </tr>
+              
+              <tr>
+                <th>商品ID</th>
+                <td><span th:text="${item.id}">xx</span></td>
+              </tr>
+              <tr>
+                <th>商品名</th>
+                <td>
+                    <span th:text="${item.name}">楽楽精算</span>
+                </td>
+              </tr>
+              <tr>
+                <th>単価</th>
+                <td>
+                  <span
+                    th:text="${#numbers.formatInteger(item.price,1,'COMMA')}+円"
+                    >300,000,000円</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <th>説明</th>
+                <td>
+	                   <th:block th:if="${item.description}">
+					    <th:block th:each="str, stat : ${item.description.split('\r\n|\r|\n', -1)}">
+					        <th:block th:text="${str}"/>
+					        <br th:if="${!stat.last}"/>
+					    </th:block>
+					</th:block>
+                </td>
+              </tr>
+              <tr>
+                <th>作成者</th>
+                <td>
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${item.createdBy.id}"
+                    ><span th:text="${item.createdBy.name}">古本昌幸</span>
+                  </a>
+                </td>
+              </tr>
+          </table>
+          <div>
+	          <a
+	              type="button"
+	              class="
+	                btn btn-primary
+	                 offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	              href="item-edit.html"
+	              th:href="@{/item/edit?id=}+${item.id}"
+	            >
+	             この商品を編集する
+	            </a>
+          </div>
+          <br>
+          <div>
+	          <a
+	              type="button"
+	              class="
+	                btn btn-danger
+	                offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	              href="item-delete-confirm.html"
+	              th:href="@{/item/delete_confirm?id=}+${item.id}"
+	            >
+	             この商品を削除する
+	            </a>
+	          
+
+          <!-- ここから下を編集する必要はありません -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src=""></script>
+  </body>
+</html>

@@ -21,6 +21,6 @@ public class ClientController {
 	public String showList(Model model) {
 		List<Client> clientList = clientService.findAll();
 		model.addAttribute("clientList", clientList);
-		return "client-list.html";
+		return "client/client-list.html";
 	}
 }
