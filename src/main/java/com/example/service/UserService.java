@@ -38,7 +38,6 @@ public class UserService {
 			if(user == null || user.size()==0) {
 				return null;
 			}
-			System.out.println(user.size());
 			
 			if (!passwordEncoder.matches(password, user.get(0).getPassword())) {
 				return null;
