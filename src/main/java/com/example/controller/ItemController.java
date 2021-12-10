@@ -23,4 +23,11 @@ public class ItemController {
 		model.addAttribute("itemList", itemList);
 		return "item-list.html";
 	}
+	
+	@RequestMapping("/showDetail")
+	public String showDetail(Model model,Integer id) {
+		Item item = itemService.findById(id);
+		model.addAttribute("item", item);
+		return "item-detail.html";
+	}
 }

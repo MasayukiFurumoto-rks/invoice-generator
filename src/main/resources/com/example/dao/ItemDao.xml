@@ -31,7 +31,10 @@
 		LEFT JOIN users AS u
 		ON i.item_owner_id = u.id
 		WHERE
+		i.item_deleted = false
+		and
 		i.item_id= #{id}
+		
 	</select>
 	<select id="findAll" resultMap="itemMap">
 			SELECT
@@ -46,6 +49,10 @@
 		items AS i  
 		LEFT JOIN users AS u
 		ON i.item_owner_id = u.id
+		WHERE
+		i.item_deleted = false
+		
+		
 	</select>
 <!-- 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"> -->
 <!-- 		insert into users (name,email,password,user_companies_id) -->
