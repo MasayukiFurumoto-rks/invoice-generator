@@ -1,0 +1,13 @@
+CREATE TABLE items(
+item_id serial NOT NULL,
+item_name text NOT NULL,
+item_price int NOT NULL,
+item_deleted boolean NOT NULL default false ,
+item_owner_id BIGINT UNSIGNED NOT NULL,
+FOREIGN KEY (item_owner_id) REFERENCES users(id),
+CONSTRAINT  items_pkey PRIMARY KEY (item_id)
+);
+
+INSERT INTO items(item_name,item_price,item_owner_id) VALUES ('就活イベント',300000,1);
+INSERT INTO items(item_name,item_price,item_owner_id) VALUES ('人材紹介',900000,1);
+INSERT INTO items(item_name,item_price,item_owner_id) VALUES ('楽楽精算1ヶ月',100000,1);

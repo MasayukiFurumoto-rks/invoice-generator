@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ItemDao">
+	<resultMap id="itemMap" type="com.example.entity.Item">
+		<id     column="item_id" 			property="id"/>
+		<result column="item_name" 			property="name"/>
+		<result column="item_price" 		property="price"/>
+		<result column="item_description" 	property="description"/>
+		<result column="item_deleted" 		property="deleted"/>
+		<association property="createdBy" resultMap="userMap" />
+	</resultMap>
+	
+	<resultMap id="userMap" type="com.example.entity.User">
+		<id     column="user_id" 	property="id"/>
+		<result column="user_name" 	property="name"/>
+	</resultMap>
+	
+	<select id="findById" resultMap="itemMap">
+		SELECT
+		i.item_id,
+		i.item_name,
+		i.item_price,
+		i.item_description,
+		i.item_deleted,
+		i.item_owner_id AS user_id,
+		u.name AS user_name 
+		FROM
+		items AS i  
+		LEFT JOIN users AS u
+		ON i.item_owner_id = u.id
+		WHERE
+		i.item_id= #{id}
+	</select>
+	<select id="findAll" resultMap="itemMap">
+			SELECT
+		i.item_id,
+		i.item_name,
+		i.item_price,
+		i.item_description,
+		i.item_deleted,
+		i.item_owner_id AS user_id,
+		u.name AS user_name 
+		FROM
+		items AS i  
+		LEFT JOIN users AS u
+		ON i.item_owner_id = u.id
+	</select>
+<!-- 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"> -->
+<!-- 		insert into users (name,email,password,user_companies_id) -->
+<!-- 		values -->
+<!-- 		(#{name},#{email},#{password},#{userCompaniesId}) -->
+<!-- 	</insert> -->
+
+</mapper>
