@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ClientDao">
+	<resultMap id="clientMap" type="com.example.entity.Client">
+		<id column="id" />
+		<result column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="zipcode" property="zipcode" />
+		<result column="address" property="address" />
+		<result column="building" property="building" />
+		<result column="telephone" property="telephone" />
+		<result column="credit_limit" property="creditLimit" />
+		<result column="remarks" property="remarks" />
+		<association property="user" resultMap="userMap"></association>
+	</resultMap>
+	
+	<resultMap id="userMap" type="com.example.entity.User">
+		<id     column="user_id" 	property="id"/>
+		<result column="user_name" 	property="name"/>
+	</resultMap>
+	
+	<select id="findById" resultMap="clientMap">
+		SELECT
+		c.id,
+		c.name,
+		c.zipcode,
+		c.address,
+		c.building,
+		c.telephone,
+		c.credit_limit,
+		c.remarks,
+		c.owner_id AS user_id,
+		u.name AS user_name 
+		FROM
+		clients AS c
+		LEFT JOIN users AS u
+		ON c.owner_id = u.id
+		WHERE
+		id= #{id}
+	</select>
+	<select id="findAll" resultMap="clientMap">
+		SELECT
+		c.id,
+		c.name,
+		c.zipcode,
+		c.address,
+		c.building,
+		c.telephone,
+		c.credit_limit,
+		c.remarks,
+		c.owner_id AS user_id,
+		u.name AS user_name 
+		FROM
+		clients AS c
+		LEFT JOIN users AS u
+		ON c.owner_id = u.id
+	</select>
+<!-- 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"> -->
+<!-- 		insert into users (name,email,password,user_companies_id) -->
+<!-- 		values -->
+<!-- 		(#{name},#{email},#{password},#{userCompaniesId}) -->
+<!-- 	</insert> -->
+
+</mapper>
