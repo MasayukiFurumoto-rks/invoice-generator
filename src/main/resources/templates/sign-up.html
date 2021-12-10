@@ -25,20 +25,32 @@
             th:object="${signUpForm}"
             method="post"
           >
-            <div th:errors="*{name}" class="text-danger"></div>
-            <div
-              th:if="${spaceOnlyname}"
-              th:text="${spaceOnlyname}"
-              class="text-danger"
-            ></div>
-            <div class="form-floating mb-3">
-              <input
-                th:field="*{name}"
-                type="text"
-                class="form-control"
-                placeholder="name"
-              />
-              <label for="floatingInput">氏名</label>
+            <div th:errors="*{lastName}" class="text-danger"></div>
+            <div th:errors="*{firstName}" class="text-danger"></div>
+
+            <div class="row my-3">
+              <div class="col-md">
+                <div class="form-floating">
+                  <input
+                    th:field="*{lastName}"
+                    type="text"
+                    class="form-control"
+                    placeholder="lastName"
+                  />
+                  <label for="floatingInput">氏</label>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-floating">
+                  <input
+                    th:field="*{firstName}"
+                    type="text"
+                    class="form-control"
+                    placeholder="firstName"
+                  />
+                  <label for="floatingInput">名</label>
+                </div>
+              </div>
             </div>
 
             <div th:errors="*{email}" class="text-danger"></div>

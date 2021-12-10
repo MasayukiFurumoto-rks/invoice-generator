@@ -39,8 +39,6 @@ public class UserController {
 	}
 
 	/**
-	 * ���[�U�[�o�^�m�F��ʂɑJ�ڂ����邽�߂̃��\�b�h�B<br>
-	 * �ł��܂��g���ĂȂ��B
 	 * 
 	 * @param form
 	 * @param model
@@ -54,7 +52,6 @@ public class UserController {
 	}
 
 	/**
-	 * ���[�U�[�o�^�������s�����\�b�h�B<br>
 	 * 
 	 * @param form
 	 * @param model
@@ -75,6 +72,7 @@ public class UserController {
 		
 		User user = new User();
 		BeanUtils.copyProperties(form, user);
+		user.setName(form.getLastName() + " " +form.getFirstName());
 		
 		// 本当は認証コードで付与したいけどまだ難しいのでやらない
 		user.setUserCompaniesId(1);
@@ -98,14 +96,12 @@ public class UserController {
 		}
 		
 		User signInResult = userService.signIn(form.getEmail(), form.getPassword());
-		System.out.println("signInResult:"+signInResult);
 		
 		if(Objects.isNull(signInResult) ) {
 			model.addAttribute("signInError","メールアドレスかパスワードが不正です");
 			return "sign-in.html";
 		}
 			
-		System.out.println("signInResult:"+signInResult);
 		session.setAttribute("user", signInResult);
 		return "redirect:/home";
 	}
