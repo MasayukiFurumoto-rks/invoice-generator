@@ -88,37 +88,19 @@
 	              type="button"
 	              class="
 	                btn btn-primary
-	                 offset-lg-5
-	                col-lg-2
-	                offset-sm-4
-	                col-sm-4
+	                 offset-lg-4
+	                col-lg-4
+	                offset-sm-6
+	                col-sm-3
 	              "
 	              href="item-edit.html"
 	              th:href="@{/item/edit?id=}+${item.id}"
 	            >
-	             この商品を編集する
+	             この商品を編集/削除する
 	            </a>
           </div>
-          <br>
-          <div>
-	          <a
-	              type="button"
-	              class="
-	                btn btn-danger
-	                offset-lg-5
-	                col-lg-2
-	                offset-sm-4
-	                col-sm-4
-	              "
-	              href="item-delete-confirm.html"
-	              th:href="@{/item/delete_confirm?id=}+${item.id}"
-	            >
-	             この商品を削除する
-	            </a>
-	          
 
           <!-- ここから下を編集する必要はありません -->
-          </div>
         </div>
       </div>
     </div>
