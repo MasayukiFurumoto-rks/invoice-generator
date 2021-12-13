@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.entity.User;
+import com.example.entity.UserDepartment;
 import com.example.form.SignInForm;
 import com.example.form.SignUpForm;
+import com.example.service.UserDepartmentService;
 import com.example.service.UserService;
 
 @Controller
@@ -26,6 +29,9 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
+	private UserDepartmentService userDepartmentService;
+	
+	@Autowired
 	private HttpSession session;
 
 	@ModelAttribute
@@ -34,7 +40,11 @@ public class UserController {
 	}
 
 	@RequestMapping("/to-sign-up")
-	public String toSignUp() {
+	public String toSignUp(Model model) {
+		// 本当は登録ページごとに企業ごとのリストをロードするようにしたい難しいのでまだやらない
+		
+		List<UserDepartment> departmentList = userDepartmentService.findByCompanyId(1);
+		model.addAttribute("departmentList", departmentList);
 		return "user/sign-up.html";
 	}
 
@@ -59,23 +69,21 @@ public class UserController {
 	 */
 	@RequestMapping("/sign-up")
 	public String signUp(@Validated SignUpForm form,BindingResult result, Model model) {
+		System.out.println(form);
 		
 		if(result.hasErrors()) {
-			return toSignUp();
+			return toSignUp(model);
 		}
 		
 		System.out.println("Emailsearchresultsize:"+userService.findByEmail(form.getEmail()).size());
 		if(userService.findByEmail(form.getEmail()).size() != 0) {
 			model.addAttribute("dupricateMail", "このメールアドレスはすでに使用されています。");
-			return toSignUp();
+			return toSignUp(model);
 		}
 		
 		User user = new User();
 		BeanUtils.copyProperties(form, user);
 		user.setName(form.getLastName() + " " +form.getFirstName());
-		
-		// 本当は認証コードで付与したいけどまだ難しいのでやらない
-		user.setUserCompaniesId(1);
 		
 		userService.insert(user);
 		
@@ -99,9 +107,10 @@ public class UserController {
 		
 		if(Objects.isNull(signInResult) ) {
 			model.addAttribute("signInError","メールアドレスかパスワードが不正です");
-			return "sign-in.html";
+			return "user/sign-in.html";
 		}
 			
+		System.out.println("user:"+signInResult);
 		session.setAttribute("user", signInResult);
 		return "redirect:/home";
 	}

@@ -19,6 +19,7 @@
       <div class="card row col-lg-6 offset-lg-3 offset-me-1 col-md-10 mb-5">
         <div class="card-body p-sm-5">
           <h3 class="card-title mb-3">ユーザー登録</h3>
+          <br>
           <form
             class="row g-3"
             th:action="@{/sign-up}"
@@ -29,7 +30,7 @@
             <div th:errors="*{firstName}" class="text-danger"></div>
 
             <div class="row my-3">
-              <div class="col-md">
+              <div class="col-6 mx-0">
                 <div class="form-floating">
                   <input
                     th:field="*{lastName}"
@@ -37,10 +38,10 @@
                     class="form-control"
                     placeholder="lastName"
                   />
-                  <label for="floatingInput">氏</label>
+                  <label>氏</label>
                 </div>
               </div>
-              <div class="col-md">
+              <div class="col-6 mx-0">
                 <div class="form-floating">
                   <input
                     th:field="*{firstName}"
@@ -48,10 +49,30 @@
                     class="form-control"
                     placeholder="firstName"
                   />
-                  <label for="floatingInput">名</label>
+                  <label>名</label>
                 </div>
               </div>
             </div>
+            
+            <div th:errors="*{departmentId}" class="text-danger"></div>
+            <div class="form-floating mb-3">
+              <select th:field="*{departmentId}" class="form-control">
+				<option hidden value="" >部署名を選択してください</option>
+				<option th:each="department:${departmentList}" th:value="${department.id}" th:text="${department.name}"></option>
+              </select>
+              <label>所属部署</label>
+            </div>
+
+			<div th:errors="*{position}" class="text-danger"></div>
+            <div class="form-floating mb-3">
+              <input
+                th:field="*{position}"
+                type="text"
+                class="form-control"
+              />
+              <label>役職名（ない場合は空欄）</label>
+            </div>
+            
 
             <div th:errors="*{email}" class="text-danger"></div>
             <div
@@ -66,7 +87,7 @@
                 class="form-control"
                 placeholder="email"
               />
-              <label for="floatingPassword">メールアドレス</label>
+              <label>メールアドレス</label>
             </div>
 
             <div
@@ -82,7 +103,7 @@
                 class="form-control"
                 placeholder="email"
               />
-              <label for="floatingPassword">パスワード</label>
+              <label>パスワード</label>
             </div>
             <div th:errors="*{confirmationPassword}" class="text-danger"></div>
             <div class="form-floating mb-3">
@@ -92,7 +113,7 @@
                 class="form-control"
                 placeholder="email"
               />
-              <label for="floatingPassword">確認用パスワード</label>
+              <label>確認用パスワード</label>
             </div>
 
             <button

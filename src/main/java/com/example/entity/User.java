@@ -8,10 +8,11 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
+	private Integer departmentId;
+	private UserDepartment department;
+	private String position;
 	private boolean isAdministrator;
 	private boolean deleted;
-	private Integer userCompaniesId;
-	private String belongs;
 
 	public Integer getId() {
 		return id;
@@ -45,6 +46,30 @@ public class User {
 		this.password = password;
 	}
 
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public UserDepartment getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(UserDepartment department) {
+		this.department = department;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	public boolean isAdministrator() {
 		return isAdministrator;
 	}
@@ -61,27 +86,11 @@ public class User {
 		this.deleted = deleted;
 	}
 
-	public Integer getUserCompaniesId() {
-		return userCompaniesId;
-	}
-
-	public void setUserCompaniesId(Integer userCompaniesId) {
-		this.userCompaniesId = userCompaniesId;
-	}
-
-	public String getBelongs() {
-		return belongs;
-	}
-
-	public void setBelongs(String belongs) {
-		this.belongs = belongs;
-	}
-
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
-				+ ", isAdministrator=" + isAdministrator + ", deleted=" + deleted + ", userCompaniesId="
-				+ userCompaniesId + ", belongs=" + belongs + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", department="
+				+ department + ", position=" + position + ", isAdministrator=" + isAdministrator + ", deleted="
+				+ deleted + "]";
 	}
 
 }

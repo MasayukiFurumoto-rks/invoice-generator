@@ -30,16 +30,18 @@ public class UserService {
 	 public List<User> findByEmail(String email){
 		 User user = new User();
 		 user.setEmail(email);
-		 return this.userDao.findByEmailAsJoin(user);
+		 return this.userDao.findByEmail(user);
 	 }
 	 
 	 public User signIn(String email, String password) {
 			List<User> user = this.findByEmail(email);
 			if(user == null || user.size()==0) {
+				System.out.println("メアドがない");
 				return null;
 			}
 			
 			if (!passwordEncoder.matches(password, user.get(0).getPassword())) {
+				System.out.println("パスワードが違う");
 				return null;
 			}
 			
