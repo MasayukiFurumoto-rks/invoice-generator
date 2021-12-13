@@ -46,22 +46,31 @@ public class ItemController {
 	
 	@RequestMapping("/showList")
 	public String showList(Model model) {
-		List<Item> itemList = itemService.findAll();
+		User signInUser = (User)session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		List<Item> itemList = itemService.findByCompanyId(comIdOfUser);
 		model.addAttribute("itemList", itemList);
 		return "item/item-list.html";
 	}
 	
 	@RequestMapping("/showDetail")
 	public String showDetail(Model model,Integer id) {
-		Item item = itemService.findById(id);
+		User signInUser = (User)session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Item item = itemService.findById(id,comIdOfUser);
 		model.addAttribute("item", item);
 		return "item/item-detail.html";
 	}
 
 	@RequestMapping("/edit")
 	public String edit(Model model,Integer id) {
+		User signInUser = (User)session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
 		// 編集しようとしている商品の情報を一緒に表示するためにロード
-		Item item = itemService.findById(id);
+		Item item = itemService.findById(id,comIdOfUser);
 		model.addAttribute("item", item);
 		
 		//　同じ企業の人を選ぶために
@@ -77,10 +86,13 @@ public class ItemController {
 		if(result.hasErrors()) {
 			return edit(model,form.getId());
 		}
+		User signInUser = (User)session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
 		
-		Item item = itemService.findById(form.getId());
+		Item item = itemService.findById(form.getId(),comIdOfUser);
 		
-		Item editedItem = itemService.findById(form.getId());
+		Item editedItem = itemService.findById(form.getId(),comIdOfUser);
 		BeanUtils.copyProperties(form, editedItem);
 		editedItem.setCreatedBy(userService.findById(form.getOwnerId()));
 		
@@ -102,5 +114,27 @@ public class ItemController {
 		System.out.println("item:"+item);
 		itemService.updateItem(item);
 		return "redirect:/item/showDetail?id=" +form.getId();
+	}
+	
+	@RequestMapping("/delete/confirm")
+	public String deleteConfirm(Integer id,Model model){
+		User signInUser = (User)session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Item item = itemService.findById(id,comIdOfUser);
+		model.addAttribute("item", item);
+		return "item/item-delete-confirm.html";
+		
+	}
+	@RequestMapping("/delete/finish")
+	public String deleteFinish(Integer id,Model model){
+		User signInUser = (User)session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Item item = itemService.findById(id,comIdOfUser);
+		item.setDeleted(true);
+		itemService.updateItem(item);
+		return "redirect:/item/showList";
+		
 	}
 }

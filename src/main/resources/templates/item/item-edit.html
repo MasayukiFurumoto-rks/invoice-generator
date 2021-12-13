@@ -51,12 +51,7 @@
                </th>
                 <td class="align-middle"><span th:text="${item.id}">xx</span></td>
                 <td>
-                <span th:if="${session.user.isAdministrator}">
-               	 <input type="text" name="id" th:value="${item.id}">
-                </span>
-                <span th:unless="${session.user.isAdministrator}">
              	   <input type="hidden" name="id" th:value="${item.id}">
-                </span>
                 </td>
               </tr>
               <tr>
@@ -223,7 +218,7 @@
 		                btn btn-danger
 		              "
 		              href="item-delete-confirm.html"
-		              th:href="@{/item/delete_confirm?id=}+${item.id}"
+		              th:href="@{/item/delete/confirm?id=}+${item.id}"
 		            >
 		             この商品を削除する
 	            </a>

@@ -16,17 +16,19 @@ public class ItemService {
 	@Autowired
 	ItemDao itemDao;
 	
-	 public Item findById(Integer id) {
-		 Item item = new Item();
-		 item.setId(id);
-		 return this.itemDao.findById(item);
+	 public Item findById(Integer id,Integer companyId) {
+		 return this.itemDao.findById(id,companyId);
 	 }
 	 
-	 public List<Item> findAll(){
-		 return this.itemDao.findAll();
+	 public List<Item> findByCompanyId(Integer companyId){
+		 return this.itemDao.findByCompanyId(companyId);
 	 }
 	 
 	 public int updateItem(Item item) {
+		 return this.itemDao.updateItem(item);
+	 }
+	 
+	 public int deleteItem(Item item) {
 		 return this.itemDao.updateItem(item);
 	 }
 	 

@@ -3,22 +3,17 @@ package com.example.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.entity.Item;
 
 @Mapper
 public interface ItemDao{
 	// 1件検索
-	Item findById(Item item);
-	
-	//　メールアドレスで検索
-	List<Item> findByEmail(Item item);
-
-	//　Joinした結果をメールアドレスで検索
-	List<Item> findByEmailAsJoin(Item item);
+	Item findById(@Param("id") Integer id,@Param("companyId") Integer companyId);
 	
 	// 全件検索
-	List<Item> findAll();
+	List<Item> findByCompanyId(Integer companyId);
 	
 	// ユーザーテーブルにデータを挿入
 	int insertItem(Item item);

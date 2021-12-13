@@ -31,14 +31,21 @@
 		items AS i  
 		LEFT JOIN users AS u
 		ON i.item_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
 		WHERE
-		i.item_deleted = false
-		and
 		i.item_id= #{id}
+		and
+		uc.user_companies_id = #{companyId}
+		and
+		i.item_deleted = false
+		
 		
 	</select>
-	<select id="findAll" resultMap="itemMap">
-			SELECT
+	<select id="findByCompanyId" resultMap="itemMap">
+		SELECT
 		i.item_id,
 		i.item_name,
 		i.item_price,
@@ -50,10 +57,15 @@
 		items AS i  
 		LEFT JOIN users AS u
 		ON i.item_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
 		WHERE
+		uc.user_companies_id = #{companyId}
+		and
 		i.item_deleted = false
-		
-		
+				
 	</select>
 
 	<insert id="insertItem" useGeneratedKeys="true" keyProperty="id">
