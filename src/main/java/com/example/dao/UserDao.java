@@ -14,8 +14,9 @@ public interface UserDao{
 	//　メールアドレスで検索
 	List<User> findByEmail(User user);
 
-	//　Joinした結果をメールアドレスで検索
-	List<User> findByEmailAsJoin(User user);
+	//　企業IDで検索
+	List<User> findByCompanyId(Integer companyId);
+	
 	
 	// 全件検索
 	List<User> findAll();

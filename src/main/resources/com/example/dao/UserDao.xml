@@ -82,6 +82,33 @@
 		WHERE
 		u.email= #{email}
 	</select>
+	<select id="findByCompanyId" resultMap="userMap">
+		SELECT
+		u.id AS user_id,
+		u.name AS user_name,
+		u.email AS user_email,
+		u.password AS user_password,
+		u.user_department_id ,
+		u.position AS user_position,
+		u.deleted AS user_deleted,
+		ud.user_departments_id,
+		ud.user_departments_name,
+		ud.user_company_id,
+		uc.user_companies_id,
+		uc.user_companies_name 
+		FROM
+		users AS u
+		JOIN 
+		user_departments AS ud 
+		ON 
+		u.user_department_id = ud.user_departments_id 
+		JOIN 
+		user_companies AS uc
+		ON
+		ud.user_company_id = uc.user_companies_id
+		WHERE
+		ud.user_company_id= #{companyId}
+	</select>
 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
 		insert into users (name,user_department_id,position,email,password)
 		values (#{name},#{departmentId},#{position},#{email},#{password})

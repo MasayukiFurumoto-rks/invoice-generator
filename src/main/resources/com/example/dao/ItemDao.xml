@@ -9,6 +9,7 @@
 		<result column="item_price" 		property="price"/>
 		<result column="item_description" 	property="description"/>
 		<result column="item_deleted" 		property="deleted"/>
+		<result column="user_id" 			property="ownerId"/>
 		<association property="createdBy" resultMap="userMap" />
 	</resultMap>
 	
@@ -54,10 +55,24 @@
 		
 		
 	</select>
-<!-- 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"> -->
-<!-- 		insert into users (name,email,password,user_companies_id) -->
-<!-- 		values -->
-<!-- 		(#{name},#{email},#{password},#{userCompaniesId}) -->
-<!-- 	</insert> -->
+
+	<insert id="insertItem" useGeneratedKeys="true" keyProperty="id">
+		insert into users (name,email,password,user_companies_id)
+		values
+		(#{name},#{email},#{password},#{userCompaniesId})
+	</insert>
+
+	<update id="updateItem">
+		UPDATE
+		items 
+		SET 
+		item_name = #{name},
+		item_price = #{price},
+		item_description = #{description},
+		item_deleted = #{deleted},
+		item_owner_id = #{ownerId} 
+		WHERE
+		item_id = #{id}
+	</update>
 
 </mapper>

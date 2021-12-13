@@ -23,4 +23,7 @@ public interface ItemDao{
 	// ユーザーテーブルにデータを挿入
 	int insertItem(Item item);
 
+	// ユーザーテーブルにあるアイテムデータを更新
+	int updateItem(Item item);
+
 }

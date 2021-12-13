@@ -18,7 +18,7 @@
    	<ol class="breadcrumb">
 	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
 		<li class="breadcrumb-item"><a href="item-list.html" th:href="@{/item/showList}">商品一覧</a></li>
-		<li class="breadcrumb-item"><a href="item-detail.html" th:href="@{/item/showDetail}">商品詳細</a></li>
+		<li class="breadcrumb-item"><a href="item-detail.html" th:href="@{/item/showDetail?id=}+${item.id}">商品詳細</a></li>
 		<li class="breadcrumb-item active">商品編集</li>
 	</ol>
 	
@@ -50,7 +50,14 @@
                商品ID
                </th>
                 <td class="align-middle"><span th:text="${item.id}">xx</span></td>
-                <td></td>
+                <td>
+                <span th:if="${session.user.isAdministrator}">
+               	 <input type="text" name="id" th:value="${item.id}">
+                </span>
+                <span th:unless="${session.user.isAdministrator}">
+             	   <input type="hidden" name="id" th:value="${item.id}">
+                </span>
+                </td>
               </tr>
               <tr>
                 <th class="align-middle"><label for="itemName">商品名</label></th>
@@ -58,26 +65,46 @@
                     <label for="itemName"><span th:text="${item.name}">楽楽精算</span></label>
                 </td>
                 <td class="align-middle">
-                    <input type="text"
-                    id="itemName" 
-                    name="name"
-                    class="form-control form-control-sm"
-                    th:value="${item.name}">
+                    <span th:if="*{name}!=null">
+	                    <input type="text"
+	                    id="itemName"
+	                    name="name"
+	                    class="form-control form-control-sm"
+	                    th:value="${item.name}"
+	                    th:field="*{name}">
+                    </span>
+                    <span th:unless="*{name}!=null">
+	                    <input type="text"
+	                    id="itemName"
+	                    name="name"
+	                    class="form-control form-control-sm"
+	                    th:value="${item.name}"
+	                    >
+                    </span>
                 </td>
                
               </tr>
-              <tr>
                 <tr>
                 <th class="align-middle"><label for="itemPrice">単価</label></th>
                 <td class="align-middle">
                     <label for="itemPrice"><span th:text="${item.price}">300,000,000円</span></label>
                 </td>
                 <td class="align-middle">
-                    <input type="text"
-                    id="itemPrice" 
-                    name="price"
-                    class="form-control form-control-sm"
-                    th:value="${item.price}">
+                    <span th:if="*{name}!=null">
+	                     <input type="text"
+			                    id="itemPrice" 
+			                    name="price"
+			                    class="form-control form-control-sm"
+			                    th:value="${item.price}"
+			                    th:field="*{price}">
+                    </span>
+                    <span th:unless="*{name}!=null">
+	                   <input type="text"
+			                    id="itemPrice" 
+			                    name="price"
+			                    class="form-control form-control-sm"
+			                    th:value="${item.price}">
+                    </span>
                 </td>
                
               </tr>
@@ -94,11 +121,24 @@
                    </label>
                </td>
                <td class="align-middle">
-                   <textarea 
+                  <span th:if="*{name}!=null">
+	               <textarea 
                    id="itemDescription" 
                    name="description"
                    class="form-control form-control-sm"
-                   th:text="${item.description}"></textarea>
+                   th:text="${item.description}"
+                   th:field="*{description}">
+                   </textarea>
+                  </span>
+                  <span th:unless="*{name}!=null">
+	                <textarea 
+	                   id="itemDescription" 
+	                   name="description"
+	                   class="form-control form-control-sm"
+	                   th:text="${item.description}">
+	                </textarea>
+                  </span>
+                    
                </td>
                
               </tr>
@@ -111,7 +151,22 @@
                     ><span th:text="${item.createdBy.name}">古本昌幸</span>
                   </a>
                 </td>
-                <td></td>
+                <td>
+	             <div class="mb-3">
+		              <div th:if="*{ownerId}!=null">
+						<select th:field="*{ownerId}" class="form-select form-select-sm" aria-label=".form-select-sm">
+							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}"></option>
+	              		</select>
+	                  </div>
+	                  <div th:unless="*{ownerId}!=null">
+		                <select id="ownerId" name="ownerId" class="form-select form-select-sm" aria-label=".form-select-sm">
+							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}" th:selected="${owner.id} == ${item.createdBy.id}"></option>
+	              		</select>
+	                  </div>
+	              
+	              
+		         </div>
+                </td>
               </tr>
           </table>
           <div>

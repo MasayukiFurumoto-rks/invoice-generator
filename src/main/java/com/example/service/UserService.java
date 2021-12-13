@@ -32,6 +32,10 @@ public class UserService {
 		 user.setEmail(email);
 		 return this.userDao.findByEmail(user);
 	 }
+
+	 public List<User> findByCompanyId(Integer companyId){
+		 return this.userDao.findByCompanyId(companyId);
+	 }
 	 
 	 public User signIn(String email, String password) {
 			List<User> user = this.findByEmail(email);

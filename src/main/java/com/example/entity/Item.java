@@ -14,6 +14,7 @@ public class Item {
 	private Integer price;
 	private String description;
 	private boolean deleted;
+	private Integer ownerId;
 	private User createdBy;
 
 	public Integer getId() {
@@ -56,6 +57,14 @@ public class Item {
 		this.deleted = deleted;
 	}
 
+	public Integer getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Integer ownerId) {
+		this.ownerId = ownerId;
+	}
+
 	public User getCreatedBy() {
 		return createdBy;
 	}
@@ -67,7 +76,7 @@ public class Item {
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", name=" + name + ", price=" + price + ", description=" + description + ", deleted="
-				+ deleted + ", createdBy=" + createdBy + "]";
+				+ deleted + ", ownerId=" + ownerId + ", createdBy=" + createdBy + "]";
 	}
 
 }

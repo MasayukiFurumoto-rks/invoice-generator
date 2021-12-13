@@ -12,7 +12,7 @@
 	<div class="header">
 <!-- 			<nav class="navbar navbar-default"> -->
 		<div class="container-fluid mb-3">
-			<nav class="navbar navbar-light bg-light  px-2">
+			<nav class="navbar navbar-light bg-light px-2">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
 					<a class="navbar-brand" href="home.html" th:href="@{/home}">
@@ -47,7 +47,7 @@
 				<span class="navbar-text navbar-right">
 						こんにちは&nbsp;<span th:text="${session.user.department.company.name}">株式会社〇〇</span>&nbsp;<span th:text="${session.user.name}+さん">〇〇さん</span>
 				</span>
-				<p class="navbar-text navbar-right me-3">
+				<span class="navbar-text navbar-right me-3  align-middle">
 					<span class="me-2">
 						<span><a href="client-list.html" th:href="@{/client/showList}">取引先</a></span>
 						<span><a href="client-list.html" th:href="@{/client/showList}">取引先担当者</a></span>
@@ -55,9 +55,9 @@
 						<span><a href="client-list.html" th:href="@{/client/showList}">取引</a></span>
 						<span><a href="client-list.html" th:href="@{/client/showList}">請求書</a></span>
 					</span>
-					<span><a href="sign-in.html" th:href="@{/sign-out}">サインアウト</a></span>
+					<span><a href="sign-in.html" th:href="@{/sign-out}" type="button" class="btn btn-sm btn-outline-secondary">サインアウト</a></span>
 				
-				</p>
+				</span>
 				<!-- /.container-fluid -->
 			</nav>
 		</div>

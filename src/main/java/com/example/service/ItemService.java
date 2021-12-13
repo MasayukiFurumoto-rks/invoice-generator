@@ -26,5 +26,8 @@ public class ItemService {
 		 return this.itemDao.findAll();
 	 }
 	 
+	 public int updateItem(Item item) {
+		 return this.itemDao.updateItem(item);
+	 }
 	 
 }

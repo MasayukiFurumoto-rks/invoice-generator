@@ -18,9 +18,11 @@
    	<ol class="breadcrumb">
 	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
 		<li class="breadcrumb-item"><a href="item-list.html" th:href="@{/item/showList}">商品一覧</a></li>
-		<li class="breadcrumb-item"><a href="item-detail.html" th:href="@{/item/showDetail}">商品詳細</a></li>
-		<li class="breadcrumb-item active">商品編集</li>
+		<li class="breadcrumb-item"><a href="item-detail.html" th:href="@{/item/showDetail?id=}+${item.id}">商品詳細</a></li>
+		<li class="breadcrumb-item"><a href="item-edit.html" th:href="@{/item/edit?id=}+${item.id}">商品編集</a></li>
+		<li class="breadcrumb-item active">商品編集確認</li>
 	</ol>
+	
 	
       <!-- table -->
       <div class="row justify-content-center">
@@ -36,13 +38,13 @@
           "
         >
           <!-- ここから上を編集する必要はありません -->
-          <h3>商品編集</h3>
-          <form th:action="@{/item/edit-confirm}" method="post" th:object="${itemEditForm}">
+          <h3>商品編集確認</h3>
+          <form th:action="@{/item/editFinish}" method="post" th:object="${itemEditForm}">
           <table class="table table-striped">
               <tr>
               <th style="width:20%;"></th>
-              <th style="width:40%;">詳細</th>
-              <th style="width:40%;">入力欄</th>
+              <th style="width:40%;">変更前</th>
+              <th style="width:40%;">変更後</th>
               </tr>
               
               <tr>
@@ -55,47 +57,40 @@
               <tr>
                 <th class="align-middle"><label for="itemName">商品名</label></th>
                 <td class="align-middle">
-                    <label for="itemName"><span th:text="${item.name}">楽楽精算</span></label>
+                    <span th:text="${item.name}">楽楽精算</span>
                 </td>
                 <td class="align-middle">
-                    <input type="text"
-                    id="itemName" 
-                    class="form-control form-control-sm"
-                    th:value="${item.name}">
-                </td>
-               
-              </tr>
-              <tr>
-                <tr>
-                <th class="align-middle"><label for="itemPrice">単価</label></th>
-                <td class="align-middle">
-                    <label for="itemPrice"><span th:text="${item.price}">300,000,000円</span></label>
-                </td>
-                <td class="align-middle">
-                    <input type="text"
-                    id="itemPrice" 
-                    class="form-control form-control-sm"
-                    th:value="${item.price}">
+                    <span th:text="${editedItem.name}">楽楽精算</span>
                 </td>
                
               </tr>
                <tr>
-               <th class="align-middle"><label for="itemDescription">説明</label></th>
+	               <th class="align-middle">単価</th>
+	               <td class="align-middle">
+	                   <span th:text="${#numbers.formatInteger(item.price,1,'COMMA')}+円">300,000,000円</span>
+	               </td>
+	               <td class="align-middle">
+	                   <span th:text="${#numbers.formatInteger(editedItem.price,1,'COMMA')}+円">300,000,000円</span>
+	               </td>
+              
+              </tr>
+               <tr>
+               <th class="align-middle">説明</th>
                <td class="align-middle">
-                   <label for="itemDescription">
                    <th:block th:if="${item.description}">
 				    <th:block th:each="str, stat : ${item.description.split('\r\n|\r|\n', -1)}">
 				        <th:block th:text="${str}"/>
 				        <br th:if="${!stat.last}"/>
 				    </th:block>
 				</th:block>
-                   </label>
                </td>
                <td class="align-middle">
-                   <textarea 
-                   id="itemDescription" 
-                   class="form-control form-control-sm"
-                   th:text="${item.description}"></textarea>
+                   <th:block th:if="${editedItem.description}">
+				    <th:block th:each="str, stat : ${editedItem.description.split('\r\n|\r|\n', -1)}">
+				        <th:block th:text="${str}"/>
+				        <br th:if="${!stat.last}"/>
+				    </th:block>
+				</th:block>
                </td>
                
               </tr>
@@ -108,14 +103,16 @@
                     ><span th:text="${item.createdBy.name}">古本昌幸</span>
                   </a>
                 </td>
-                <td></td>
+                <td>
+                  <a><span th:text="${editedItem.createdBy.name}">古本昌幸</span></a>
+                </td>
               </tr>
           </table>
           <div>
 	          <button
-	              type="button"
+	              type="submit"
 	              class="
-	                btn btn-primary
+	                btn btn-outline-primary
 	                 offset-lg-5
 	                col-lg-2
 	                offset-sm-4
@@ -131,7 +128,7 @@
 	         <a
 	              type="button"
 	              class="
-	                btn btn-light
+	                btn btn-dark
 	                offset-lg-5
 	                col-lg-2
 	                offset-sm-4
@@ -148,14 +145,14 @@
 	         <a
 	              type="button"
 	              class="
-	                btn btn-warning
+	                btn btn-outline-warning
 	                offset-lg-5
 	                col-lg-2
 	                offset-sm-4
 	                col-sm-4
 	              "
 	              href="item-edit.html"
-	              th:href="@{/item/edit?id=}+${item.id}"
+	              th:href="@{/item/showDetail?id=}+${item.id}"
 	            >
 	             編集をやめる
             </a>

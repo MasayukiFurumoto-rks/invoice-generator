@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.entity.Item;
+import com.example.entity.User;
 import com.example.form.ItemEditForm;
 import com.example.service.ItemService;
+import com.example.service.UserService;
 
 @Controller
 @RequestMapping("/item")
@@ -23,7 +25,9 @@ public class ItemController {
 
 	@Autowired
 	private HttpSession session;
-	
+		
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private ItemService itemService;
@@ -34,6 +38,7 @@ public class ItemController {
 		if(session.getAttribute("editingItem") != null) {
 			Item sessionItem = (Item)session.getAttribute("editingItem");
 			BeanUtils.copyProperties(sessionItem, itemEditForm);
+			itemEditForm.setPrice(String.valueOf(sessionItem.getPrice()));
 			session.removeAttribute("editingItem");
 		}
 		return itemEditForm; 
@@ -55,17 +60,47 @@ public class ItemController {
 
 	@RequestMapping("/edit")
 	public String edit(Model model,Integer id) {
+		// 編集しようとしている商品の情報を一緒に表示するためにロード
 		Item item = itemService.findById(id);
 		model.addAttribute("item", item);
+		
+		//　同じ企業の人を選ぶために
+		Integer companyId = ((User)session.getAttribute("user")).getDepartment().getCompanyId();
+		List<User> userList = userService.findByCompanyId(companyId);
+		model.addAttribute("userList", userList);
+		
 		return "item/item-edit.html";
 	}
 	
 	@RequestMapping("/editConfirm")
-	public String editConfirm(Model model,@Validated ItemEditForm form,BindingResult result) {
-		Item editedItem = new Item();
+	public String editConfirm(@Validated ItemEditForm form,BindingResult result,Model model) {
+		if(result.hasErrors()) {
+			return edit(model,form.getId());
+		}
+		
+		Item item = itemService.findById(form.getId());
+		
+		Item editedItem = itemService.findById(form.getId());
 		BeanUtils.copyProperties(form, editedItem);
+		editedItem.setCreatedBy(userService.findById(form.getOwnerId()));
+		
 		editedItem.setPrice(form.getIntPrice());
+
+		System.out.println("editedItem:"+editedItem);
+
+		model.addAttribute("item", item);
 		model.addAttribute("editedItem", editedItem);
+		session.setAttribute("editingItem", editedItem);
 		return "item/item-edit-confirm.html";
+	}
+	
+	@RequestMapping("/editFinish")
+	public String editFinish(ItemEditForm form,Model model) {
+		Item item = new Item();
+		BeanUtils.copyProperties(form, item);
+		item.setPrice(form.getIntPrice());
+		System.out.println("item:"+item);
+		itemService.updateItem(item);
+		return "redirect:/item/showDetail?id=" +form.getId();
 	}
 }
