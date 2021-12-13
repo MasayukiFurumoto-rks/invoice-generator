@@ -2,6 +2,8 @@ package com.example.form;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -14,6 +16,12 @@ public class SignUpForm {
 	@NotBlank(message = "名前は必ず入力してください。")
 	private String firstName;
 
+	@NotNull(message = "部署を選択してください。")
+	private Integer departmentId;
+	
+	@Size(max=30,message="30字以内で入力してください。")
+	private String position;
+
 	@NotBlank(message = "メールアドレスは必ず入力してください。")
 	@Email(message = "メールアドレスの形式が不正です。")
 	private String email;
@@ -24,6 +32,10 @@ public class SignUpForm {
 	@NotBlank(message = "確認用パスワードは必ず入力してください。")
 	private String confirmationPassword;
 	private String authenticationCode;
+
+//	public Integer getIntDepartmentId() {
+//		return Integer.parseInt(departmentId);
+//	}
 
 	public String getLastName() {
 		return lastName;
@@ -39,6 +51,22 @@ public class SignUpForm {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getEmail() {
@@ -75,9 +103,9 @@ public class SignUpForm {
 
 	@Override
 	public String toString() {
-		return "SignUpForm [lastName=" + lastName + ", firstName=" + firstName + ", email=" + email + ", password="
-				+ password + ", confirmationPassword=" + confirmationPassword + ", authenticationCode="
-				+ authenticationCode + "]";
+		return "SignUpForm [lastName=" + lastName + ", firstName=" + firstName + ", departmentId=" + departmentId
+				+ ", position=" + position + ", email=" + email + ", password=" + password + ", confirmationPassword="
+				+ confirmationPassword + ", authenticationCode=" + authenticationCode + "]";
 	}
 
 }

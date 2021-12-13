@@ -45,7 +45,7 @@
 
 					
 				<span class="navbar-text navbar-right">
-						こんにちは&nbsp;<span th:text="${session.user.belongs}">株式会社〇〇</span>&nbsp;<span th:text="${session.user.name}+さん">〇〇さん</span>
+						こんにちは&nbsp;<span th:text="${session.user.department.company.name}">株式会社〇〇</span>&nbsp;<span th:text="${session.user.name}+さん">〇〇さん</span>
 				</span>
 				<p class="navbar-text navbar-right me-3">
 					<span class="me-2">
