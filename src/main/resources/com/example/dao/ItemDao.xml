@@ -69,9 +69,11 @@
 	</select>
 
 	<insert id="insertItem" useGeneratedKeys="true" keyProperty="id">
-		insert into users (name,email,password,user_companies_id)
+		INSERT INTO 
+		items 
+		(item_name,item_price,item_description,item_owner_id)
 		values
-		(#{name},#{email},#{password},#{userCompaniesId})
+		(#{name},#{price},#{description},#{ownerId})
 	</insert>
 
 	<update id="updateItem">

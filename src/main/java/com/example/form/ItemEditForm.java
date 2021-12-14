@@ -3,13 +3,13 @@ package com.example.form;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import lombok.Data;
+
 /**
  * @author cyjoh 商品データを編集するためにデータを受け取るフォームクラスです。
- */
-/**
- * @author cyjoh
  *
  */
+@Data
 public class ItemEditForm {
 
 	private Integer id;

@@ -28,8 +28,7 @@ public class ItemService {
 		 return this.itemDao.updateItem(item);
 	 }
 	 
-	 public int deleteItem(Item item) {
-		 return this.itemDao.updateItem(item);
+	 public int insertItem(Item item) {
+		 return this.itemDao.insertItem(item);
 	 }
-	 
 }

@@ -60,6 +60,7 @@
                     <label for="itemName"><span th:text="${item.name}">楽楽精算</span></label>
                 </td>
                 <td class="align-middle">
+                	<div th:errors="*{name}" class="text-danger"></div>
                     <span th:if="*{name}!=null">
 	                    <input type="text"
 	                    id="itemName"
@@ -85,6 +86,7 @@
                     <label for="itemPrice"><span th:text="${item.price}">300,000,000円</span></label>
                 </td>
                 <td class="align-middle">
+                    <div th:errors="*{price}" class="text-danger"></div>
                     <span th:if="*{name}!=null">
 	                     <input type="text"
 			                    id="itemPrice" 
@@ -116,6 +118,7 @@
                    </label>
                </td>
                <td class="align-middle">
+               	  <div th:errors="*{description}" class="text-danger"></div>
                   <span th:if="*{name}!=null">
 	               <textarea 
                    id="itemDescription" 
@@ -147,6 +150,7 @@
                   </a>
                 </td>
                 <td>
+                 <div th:errors="*{ownerId}" class="text-danger"></div>
 	             <div class="mb-3">
 		              <div th:if="*{ownerId}!=null">
 						<select th:field="*{ownerId}" class="form-select form-select-sm" aria-label=".form-select-sm">
