@@ -35,7 +35,7 @@
           "
         >
           <h3>商品新規作成</h3>
-          <form th:action="@{/item/insert/confirm}" method="post" th:object="${itemEditForm}" action="item-insert-confirm.html">
+          <form th:action="@{/item/insert/confirm}" method="post" th:object="${itemInsertForm}" action="item-insert-confirm.html">
           <table class="table table-striped text-center">
               <tr>
               <th style="width:20%;"></th>
@@ -77,11 +77,10 @@
               <tr>
                 <th class="align-middle">作成者</th>
                 <td class="align-middle">
-	             <div class="mb-3">
-	                <select class="form-select form-select-sm" aria-label=".form-select-sm" th:field="*{ownerId}">
+	                <select class="form-select form-select-sm" id="ownerId" name="ownerId">
 						<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}" th:selected="${owner.id} == ${session.user.id}"></option>
               		</select>
-		         </div>
+
                 </td>
               </tr>
           </table>

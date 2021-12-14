@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.entity.Item;
 import com.example.entity.User;
 import com.example.form.ItemEditForm;
+import com.example.form.ItemInsertForm;
 import com.example.service.ItemService;
 import com.example.service.UserService;
 
@@ -41,13 +42,19 @@ public class ItemController {
 			itemEditForm.setPrice(String.valueOf(sessionItem.getPrice()));
 			session.removeAttribute("editingItem");
 		}
+		return itemEditForm;
+	}
+	
+	@ModelAttribute
+	private ItemInsertForm setUpItemInsertForm() {
+		ItemInsertForm itemInsertForm = new ItemInsertForm();
 		if (session.getAttribute("insertingItem") != null) {
 			Item sessionItem = (Item) session.getAttribute("insertingItem");
-			BeanUtils.copyProperties(sessionItem, itemEditForm);
-			itemEditForm.setPrice(String.valueOf(sessionItem.getPrice()));
-			session.removeAttribute("editingItem");
+			BeanUtils.copyProperties(sessionItem, itemInsertForm);
+			itemInsertForm.setPrice(String.valueOf(sessionItem.getPrice()));
+			session.removeAttribute("insertingItem");
 		}
-		return itemEditForm;
+		return itemInsertForm;
 	}
 	
 
@@ -87,7 +94,7 @@ public class ItemController {
 		return "item/item-edit.html";
 	}
 
-	@RequestMapping("/editConfirm")
+	@RequestMapping("/edit/confirm")
 	public String editConfirm(@Validated ItemEditForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return edit(model, form.getId());
@@ -111,7 +118,7 @@ public class ItemController {
 		return "item/item-edit-confirm.html";
 	}
 
-	@RequestMapping("/editFinish")
+	@RequestMapping("/edit/finish")
 	public String editFinish(ItemEditForm form, Model model) {
 		Item item = new Item();
 		BeanUtils.copyProperties(form, item);
@@ -161,7 +168,7 @@ public class ItemController {
 	}
 
 	@RequestMapping("/insert/confirm")
-	public String insertConfirm(@Validated ItemEditForm form, BindingResult result, Model model) {
+	public String insertConfirm(@Validated ItemInsertForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return insert(model);
 		}
@@ -179,7 +186,7 @@ public class ItemController {
 	}
 
 	@RequestMapping("/insert/finish")
-	public String insertFinish(ItemEditForm form, Model model) {
+	public String insertFinish(ItemInsertForm form, Model model) {
 		System.out.println("form:"+form);
 		Item item = new Item();
 		BeanUtils.copyProperties(form, item);
