@@ -13,10 +13,12 @@
   <body>
     <div th:insert="fragment_part :: frag_header"></div>
     <div class="container">
-    <ol class="breadcrumb">
-	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
-		<li class="breadcrumb-item active"><a >取引先一覧</a></li>
+	<!-- パンくずリスト -->
+   	<ol class="breadcrumb">
+		<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
+		<li class="breadcrumb-item active"><a>取引先一覧</a></li>
 	</ol>
+	<!-- パンくずリスト -->
     
       <!-- table -->
       <div class="row justify-content-center">
@@ -33,47 +35,55 @@
         >
           <!-- ここから上を編集する必要はありません -->
           <h3>取引先</h3>
+          <div class="text-end">
+         	 <a type="button" class="btn btn-primary" th:href="@{/client/insert}">取引先新規作成</a>
+          </div>
+          
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>社名</th>
-                <th>最終取引日</th>
-                <th>取引先所有者</th>
+                <th>取引先名</th>
                 <th>与信限度額</th>
+                <th>作成者</th>
+                <th style="width:10%;"></th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="client:${clientList}">
-                <td>
+                <td class="align-middle">
                   <a
                     href="client-detail.html"
                     th:href="@{/client/showDetail?id=}+${client.id}"
                   >
-                    <span th:text="${client.name}">株式会社○○</span>
+                    <span th:text="${client.name}">楽楽精算</span>
                   </a>
                 </td>
-                <td>
-                  <!-- <span th:text="${#dates.format(employee.hireDate,'yyyy/MM/dd')}">2016/12/1</span> -->
-                  <span>2016/12/1</span>
-                </td>
-                <td>
-                  <a
-                    href="user-detail.html"
-                    th:href="@{/user/showDetail?id=}+${client.user.id}"
-                    ><span th:text="${client.user.name}">古本昌幸</span>
-                  </a>
-                </td>
-                <td>
+                <td class="align-middle">
                   <span
                     th:text="${#numbers.formatInteger(client.creditLimit,1,'COMMA')}+円"
                     >300,000,000円</span
                   >
                 </td>
+                <td class="align-middle">
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${client.owner.id}"
+                    ><span th:text="${client.owner.name}">古本昌幸</span>
+                  </a>
+                </td>
+                <td class="align-middle">
+                  <a
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    href="client-edit.html"
+                    th:href="@{/client/edit?id=}+${client.id}"
+                    >編集/削除
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
 
-          <!-- ここから下を編集する必要はありません -->
         </div>
       </div>
     </div>

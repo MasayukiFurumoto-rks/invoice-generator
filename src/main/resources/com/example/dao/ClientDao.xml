@@ -5,15 +5,16 @@
 <mapper namespace="com.example.dao.ClientDao">
 	<resultMap id="clientMap" type="com.example.entity.Client">
 		<id column="id" />
-		<result column="id" property="id" />
-		<result column="name" property="name" />
-		<result column="zipcode" property="zipcode" />
-		<result column="address" property="address" />
-		<result column="building" property="building" />
-		<result column="telephone" property="telephone" />
-		<result column="credit_limit" property="creditLimit" />
-		<result column="remarks" property="remarks" />
-		<association property="user" resultMap="userMap"></association>
+		<result column="clients_id" property="id" />
+		<result column="clients_name" property="name" />
+		<result column="clients_zipcode" property="zipcode" />
+		<result column="clients_address" property="address" />
+		<result column="clients_building" property="building" />
+		<result column="clients_telephone" property="telephone" />
+		<result column="clients_credit_limit" property="creditLimit" />
+		<result column="clients_remarks" property="remarks" />
+		<result column="user_id" property="ownerId" />
+		<association property="owner" resultMap="userMap"></association>
 	</resultMap>
 	
 	<resultMap id="userMap" type="com.example.entity.User">
@@ -23,39 +24,56 @@
 	
 	<select id="findById" resultMap="clientMap">
 		SELECT
-		c.id,
-		c.name,
-		c.zipcode,
-		c.address,
-		c.building,
-		c.telephone,
-		c.credit_limit,
-		c.remarks,
-		c.owner_id AS user_id,
+		c.clients_id,
+		c.clients_name,
+		c.clients_zipcode,
+		c.clients_address,
+		c.clients_building,
+		c.clients_telephone,
+		c.clients_credit_limit,
+		c.clients_remarks,
+		c.clients_owner_id AS user_id,
 		u.name AS user_name 
 		FROM
 		clients AS c
 		LEFT JOIN users AS u
-		ON c.owner_id = u.id
+		ON c.clients_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
 		WHERE
 		id= #{id}
+		AND
+		uc.user_companies_id = #{companyId}
+		AND
+		c.clients_deleted = false
 	</select>
-	<select id="findAll" resultMap="clientMap">
+	<select id="findByCompanyId" resultMap="clientMap">
 		SELECT
-		c.id,
-		c.name,
-		c.zipcode,
-		c.address,
-		c.building,
-		c.telephone,
-		c.credit_limit,
-		c.remarks,
-		c.owner_id AS user_id,
+		c.clients_id,
+		c.clients_name,
+		c.clients_zipcode,
+		c.clients_address,
+		c.clients_building,
+		c.clients_telephone,
+		c.clients_credit_limit,
+		c.clients_remarks,
+		c.clients_owner_id AS user_id,
 		u.name AS user_name 
 		FROM
 		clients AS c
 		LEFT JOIN users AS u
-		ON c.owner_id = u.id
+		ON c.clients_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		WHERE
+		uc.user_companies_id = #{companyId}
+		and
+		c.clients_deleted = false
+		
 	</select>
 <!-- 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"> -->
 <!-- 		insert into users (name,email,password,user_companies_id) -->

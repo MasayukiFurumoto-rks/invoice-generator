@@ -12,19 +12,24 @@ import com.example.entity.Client;
 @Service
 @Transactional
 public class ClientService {
-	
+
 	@Autowired
 	ClientDao clientDao;
 	
-	 public Client findById(Integer id) {
-		 Client client = new Client();
-		 client.setId(id);
-		 return this.clientDao.findById(client);
+	 public Client findById(Integer id,Integer companyId) {
+		 return this.clientDao.findById(id,companyId);
 	 }
 	 
-	 public List<Client> findAll(){
-		 return this.clientDao.findAll();
+	 public List<Client> findByCompanyId(Integer companyId){
+		 return this.clientDao.findByCompanyId(companyId);
 	 }
 	 
+	 public int updateClient(Client client) {
+		 return this.clientDao.updateClient(client);
+	 }
 	 
+	 public int insertClient(Client client) {
+		 return this.clientDao.insertClient(client);
+	 }
 }
+

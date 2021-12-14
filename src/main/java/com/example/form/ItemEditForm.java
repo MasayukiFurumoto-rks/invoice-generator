@@ -21,7 +21,7 @@ public class ItemEditForm {
 	private String price;
 
 	private String description;
-
+	
 	private Integer ownerId;
 
 	/**

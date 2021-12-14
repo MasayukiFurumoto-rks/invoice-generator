@@ -1,34 +1,51 @@
-package com.example.entity;
+package com.example.form;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
 /**
- * @author cyjoh
+ * @author cyjoh 商品データを編集するためにデータを受け取るフォームクラスです。
  *
  */
 @Data
-public class Client {
-	private Integer id;
+public class ClientInsertForm {
+
+	/** 企業名 */
+	@NotBlank(message = "商品名は必ず入力してください。")
 	private String name;
+
+	/** 郵便番号 */
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はハイフンありの形式で入力してください。")
 	private String zipcode;
+
+	/** 住所 */
+	@NotBlank(message = "住所は必ず入力してください。")
 	private String address;
+
+	/** 建物 */
 	private String building;
+
+	/** 電話番号 */
+	@Pattern(regexp = "^0[-0-9]{11,12}$", message = "電話番号はハイフンありの形式で入力してください。")
 	private String telephone;
-	private Integer creditLimit;
+
+	/** 与信限度額 */
+	@Pattern(regexp = "^[0-9]|[1-9][0-9]{1,8}|1[0-9]{9}|2000000000$", message = "与信限度額は0~20億の間の整数で入力してください。。")
+	private String creditLimit;
+
+	/** 所有者ID */
 	private Integer ownerId;
-	private User owner;
+
+	/** 備考 */
 	private String remarks;
+
+	/** 削除済みフラグ */
 	private boolean deleted;
-	private List<Trade> tradeList;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public Integer getIntCreditLimit() {
+		return Integer.parseInt(creditLimit);
 	}
 
 	public String getName() {
@@ -71,11 +88,11 @@ public class Client {
 		this.telephone = telephone;
 	}
 
-	public Integer getCreditLimit() {
+	public String getCreditLimit() {
 		return creditLimit;
 	}
 
-	public void setCreditLimit(Integer creditLimit) {
+	public void setCreditLimit(String creditLimit) {
 		this.creditLimit = creditLimit;
 	}
 
@@ -85,14 +102,6 @@ public class Client {
 
 	public void setOwnerId(Integer ownerId) {
 		this.ownerId = ownerId;
-	}
-
-	public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
 	}
 
 	public String getRemarks() {
@@ -113,9 +122,9 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [id=" + id + ", name=" + name + ", zipcode=" + zipcode + ", address=" + address + ", building="
+		return "ClientInsertForm [name=" + name + ", zipcode=" + zipcode + ", address=" + address + ", building="
 				+ building + ", telephone=" + telephone + ", creditLimit=" + creditLimit + ", ownerId=" + ownerId
-				+ ", owner=" + owner + ", remarks=" + remarks + ", deleted=" + deleted + "]";
+				+ ", remarks=" + remarks + ", deleted=" + deleted + "]";
 	}
 
 }
