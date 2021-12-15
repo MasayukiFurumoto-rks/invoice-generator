@@ -45,6 +45,18 @@
               <th style="width:40%;">入力欄</th>
               </tr>
               <tr>
+                <th class="align-middle">取引先</th>
+                <td class="align-middle">
+                    <a th:href="@{/client/showDetail?id=}+${contact.belongs.id}">
+                 		 <span th:text="${contact.belongs.name}">ポート株式会社</span>
+                	</a>
+                </td>
+                <td>
+                	<input type="hidden" name="clientId" th:value="${contact.belongs.id}">
+                </td>
+              </tr>
+              
+              <tr>
                 <th class="align-middle">取引先担当者ID</th>
                 <td class="align-middle"><span th:text="${contact.id}">xx</span></td>
                 <td>
@@ -77,87 +89,55 @@
                 </td>
                
               </tr>
-              <tr>
-                <th class="align-middle">郵便番号</th>
-                <td class="align-middle">
-                    〒<span th:text="${contact.zipcode}">191-0022</span><br>
-                    
-                </td>
-               <td class="align-middle">
-                	<div th:errors="*{zipcode}" class="text-danger"></div>
-                    <div th:if="*{zipcode}!=null">
+               <tr>
+	           	<th class="align-middle">所属部署</th>
+	            <td class="align-middle">
+         	  		 <span th:text="${contact.department}">就職支援事業部</span>
+	            </td>
+	            <td class="align-middle">
+	            	<div th:errors="*{department}" class="text-danger"></div>
+	        	        <div th:if="*{department}!=null">
+		                    <input type="text"
+		                    id="department"
+		                    name="department"
+		                    class="form-control form-control-sm"
+		                    th:value="${contact.department}"
+		                    th:field="*{department}">
+	                   </div>
+	                   <div th:unless="*{department}!=null">
 	                    <input type="text"
-	                    id="zipcode"
-	                    name="zipcode"
+	                    id="department"
+	                    name="department"
 	                    class="form-control form-control-sm"
-	                    th:value="${contact.zipcode}"
-	                    th:field="*{zipcode}">
-                    </div>
-                    <div th:unless="*{zipcode}!=null">
-	                    <input type="text"
-	                    id="zipcode"
-	                    name="zipcode"
-	                    class="form-control form-control-sm"
-	                    th:value="${contact.zipcode}"
+	                    th:value="${contact.department}"
 	                    >
-                    </div>
-                    <button type="button" id="getAddress" class="btn btn-sm btn-secondary">住所検索</button>
-				  </td>
+	                   </div>
+			   </td>
               </tr>
               <tr>
-                <th class="align-middle">住所</th>
+                <th class="align-middle">役職</th>
                 <td class="align-middle">
-                    <span th:text="${contact.address}">東京都新宿区西新宿1-1-1</span>
-                    
+               		 <span th:text="${contact.position}">部長</span>
                 </td>
 				<td class="align-middle">
-                	<div th:errors="*{address}" class="text-danger"></div>
-                    <span th:if="*{address}!=null">
+                	<div th:errors="*{position}" class="text-danger"></div>
+                    <div th:if="*{position}!=null">
 	                    <input type="text"
-	                    id="address"
-	                    name="address"
+	                    id="position"
+	                    name="position"
 	                    class="form-control form-control-sm"
-	                    th:value="${contact.address}"
-	                    th:field="*{address}">
-                    </span>
-                    <span th:unless="*{address}!=null">
+	                    th:value="${contact.position}"
+	                    th:field="*{position}">
+                    </div>
+                    <div th:unless="*{position}!=null">
 	                    <input type="text"
-	                    id="address"
-	                    name="address"
+	                    id="position"
+	                    name="position"
 	                    class="form-control form-control-sm"
-	                    th:value="${contact.address}"
+	                    th:value="${contact.position}"
 	                    >
-                    </span>
-                    
+                    </div>
                </td>
-              </tr>
-              <tr>
-                <th class="align-middle">建物</th>
-                <td class="align-middle">
-                    <span th:text="${contact.building}">住友不動産新宿グランドタワー</span>
-                    
-                </td>
-				<td class="align-middle">
-                	<div th:errors="*{building}" class="text-danger"></div>
-                    <span th:if="*{building}!=null">
-	                    <input type="text"
-	                    id="building"
-	                    name="building"
-	                    class="form-control form-control-sm"
-	                    th:value="${contact.building}"
-	                    th:field="*{building}">
-                    </span>
-                    <span th:unless="*{building}!=null">
-	                    <input type="text"
-	                    id="building"
-	                    name="building"
-	                    class="form-control form-control-sm"
-	                    th:value="${contact.building}"
-	                    >
-                    </span>
-                </td>
-                
-                
               </tr>
               <tr>
                 <th class="align-middle">電話番号</th>
@@ -186,33 +166,29 @@
               </tr>
               
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">メールアドレス</th>
                 <td class="align-middle">
-                  <span
-                    th:text="${#numbers.formatInteger(contact.creditLimit,1,'COMMA')}+円"
-                    >300,000,000円</span
-                  >
+                   <span th:text="${contact.email}">rakuraku@email.com</span><br>
                 </td>
                 <td class="align-middle">
-                  <div th:errors="*{creditLimit}" class="text-danger"></div>
-                    <span th:if="*{creditLimit}!=null">
+                  <div th:errors="*{email}" class="text-danger"></div>
+                    <div th:if="*{email}!=null">
 	                    <input type="text"
-	                    id="creditLimit"
-	                    name="creditLimit"
+	                    id="email"
+	                    name="email"
 	                    class="form-control form-control-sm"
-	                    th:value="${contact.creditLimit}"
-	                    th:field="*{creditLimit}">
-                    </span>
-                    <span th:unless="*{creditLimit}!=null">
+	                    th:value="${contact.email}"
+	                    th:field="*{email}">
+                    </div>
+                    <div th:unless="*{email}!=null">
 	                    <input type="text"
-	                    id="creditLimit"
-	                    name="creditLimit"
+	                    id="email"
+	                    name="email"
 	                    class="form-control form-control-sm"
-	                    th:value="${contact.creditLimit}"
+	                    th:value="${contact.email}"
 	                    >
-                    </span>
+                    </div>
                 </td>
-                
               </tr>
               
               <tr>
@@ -239,40 +215,6 @@
                 </td>
               </tr>
             
-              <tr>
-                <th class="align-middle">備考</th>
-                <td class="align-middle">
-	                   <th:block th:if="${contact.remarks}">
-					    <th:block th:each="str, stat : ${contact.remarks.split('\r\n|\r|\n', -1)}">
-					        <th:block th:text="${str}"/>
-					        <br th:if="${!stat.last}"/>
-					    </th:block>
-					</th:block>
-                </td>
-                <td class="align-middle">
-               	  <div th:errors="*{remarks}" class="text-danger"></div>
-                  <span th:if="*{remarks}!=null">
-	               <textarea 
-                   id="contactRemarks" 
-                   name="remarks"
-                   class="form-control form-control-sm"
-                   th:text="${contact.remarks}"
-                   th:field="*{remarks}">
-                   </textarea>
-                  </span>
-                  <span th:unless="*{remarks}!=null">
-	                <textarea 
-	                   id="contactRemarks" 
-	                   name="remarks"
-	                   class="form-control form-control-sm"
-	                   th:text="${contact.remarks}">
-	                </textarea>
-                  </span>
-                    
-               </td>
-              </tr>
-              
-              
           </table>
           <div>
 	          <button

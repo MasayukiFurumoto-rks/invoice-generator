@@ -97,18 +97,17 @@
 
 	<update id="updateContact">
 		UPDATE
-		clients
+		contacts
 		SET 
-		clients_name = #{name},
-		clients_zipcode = #{zipcode},
-		clients_address = #{address},
-		clients_building = #{building},
-		clients_telephone =	#{telephone},
-		clients_credit_limit = #{creditLimit},
-		clients_owner_id = #{ownerId},
-		clients_remarks = #{remarks},
-		clients_deleted = #{deleted}
+		contacts_name = #{name},
+		contacts_client_id = #{clientId},
+		contacts_department = #{department},
+		contacts_position = #{position},
+		contacts_telephone =	#{telephone},
+		contacts_email = #{email},
+		contacts_owner_id = #{ownerId},
+		contacts_deleted = #{deleted}
 		WHERE
-		clients_id = #{id}
+		contacts_id = #{id}
 	</update>
 </mapper>

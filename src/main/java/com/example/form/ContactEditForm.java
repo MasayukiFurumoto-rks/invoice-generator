@@ -29,7 +29,6 @@ public class ContactEditForm {
 	private String department;
 
 	/** 役職 */
-	@NotBlank(message = "役職は必ず入力してください。")
 	private String position;
 
 	/** 電話番号 */

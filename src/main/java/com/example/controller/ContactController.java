@@ -96,14 +96,17 @@ public class ContactController {
 	@RequestMapping("/edit/confirm")
 	public String editConfirm(@Validated ContactEditForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			System.out.println("編集中にエラー："+ form );
 			return edit(model, form.getId());
 		}
+		
 		User signInUser = (User) session.getAttribute("user");
 		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
 
 		Contact contact = contactService.findById(form.getId(), comIdOfUser);
 		
 		Contact editedContact = contactService.findById(form.getId(), comIdOfUser);
+		System.out.println(form);
 		BeanUtils.copyProperties(form, editedContact);
 		editedContact.setOwner(userService.findById(form.getOwnerId()));
 		

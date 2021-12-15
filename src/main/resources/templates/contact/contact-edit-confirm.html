@@ -47,10 +47,19 @@
               <th style="width:40%;">変更後</th>
               </tr>
               
-                            <tr>
+             <tr>
+                <th class="align-middle">取引先</th>
+                <td class="align-middle">
+                    <a th:href="@{/client/showDetail?id=}+${contact.belongs.id}">
+                 		 <span th:text="${contact.belongs.name}">ポート株式会社</span>
+                	</a>
+                </td>
+                <td ></td>
+              </tr>
+              <tr>
                 <th class="align-middle">取引先担当者ID</th>
                 <td class="align-middle"><span th:text="${contact.id}">xx</span></td>
-                <td class="align-middle"><span th:text="${editedContact.id}">xx</span></td>
+                <td ></td>
               </tr>
               <tr>
                 <th class="align-middle">取引先担当者名</th>
@@ -61,32 +70,41 @@
                     <span th:text="${editedContact.name}">楽楽精算</span>
                 </td>
               </tr>
+              
               <tr>
-                <th class="align-middle">所在地</th>
+                <th class="align-middle">所属部署</th>
                 <td class="align-middle">
-                    〒<span th:text="${contact.zipcode}">191-0022</span><br>
-                    <span th:text="${contact.address}">東京都新宿区西新宿1-1-1</span>
-                    <span th:text="${contact.building}">住友不動産新宿グランドタワー</span>
+               		 <span th:text="${contact.department}">就職支援事業部</span>
                 </td>
                 <td class="align-middle">
-                    〒<span th:text="${editedContact.zipcode}">191-0022</span><br>
-                    <span th:text="${editedContact.address}">東京都新宿区西新宿1-1-1</span>
-                    <span th:text="${editedContact.building}">住友不動産新宿グランドタワー</span>
+               		 <span th:text="${editedContact.department}">就職支援事業部</span>
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">役職</th>
                 <td class="align-middle">
-                  <span
-                    th:text="${#numbers.formatInteger(contact.creditLimit,1,'COMMA')}+円"
-                    >300,000,000円</span
-                  >
+               		 <span th:text="${contact.position}">部長</span>
                 </td>
                 <td class="align-middle">
-                  <span
-                    th:text="${#numbers.formatInteger(editedContact.creditLimit,1,'COMMA')}+円"
-                    >300,000,000円</span
-                  >
+               		 <span th:text="${editedContact.position}">部長</span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">電話番号</th>
+                <td class="align-middle">
+                    <span th:text="${contact.telephone}">090-0000-0000</span><br>
+                </td>
+                <td class="align-middle">
+                    <span th:text="${editedContact.telephone}">090-0000-0000</span><br>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">メールアドレス</th>
+                <td class="align-middle">
+                   <span th:text="${contact.email}">rakuraku@email.com</span><br>
+                </td>
+                <td class="align-middle">
+                   <span th:text="${editedContact.email}">rakuraku@email.com</span><br>
                 </td>
               </tr>
               
@@ -100,31 +118,7 @@
                   </a>
                 </td>
                 <td class="align-middle">
-                  <a
-                    href="user-detail.html"
-                    th:href="@{/user/showDetail?id=}+${editedContact.owner.id}"
-                    ><span th:text="${editedContact.owner.name}">古本昌幸</span>
-                  </a>
-                </td>
-              </tr>
-            
-              <tr>
-                <th class="align-middle">備考</th>
-                <td class="align-middle">
-	                   <th:block th:if="${contact.remarks}">
-					    <th:block th:each="str, stat : ${contact.remarks.split('\r\n|\r|\n', -1)}">
-					        <th:block th:text="${str}"/>
-					        <br th:if="${!stat.last}"/>
-					    </th:block>
-					</th:block>
-                </td>
-                <td class="align-middle">
-	                   <th:block th:if="${editedContact.remarks}">
-					    <th:block th:each="str, stat : ${editedContact.remarks.split('\r\n|\r|\n', -1)}">
-					        <th:block th:text="${str}"/>
-					        <br th:if="${!stat.last}"/>
-					    </th:block>
-					</th:block>
+                 <span th:text="${editedContact.owner.name}">古本昌幸</span>
                 </td>
               </tr>
           </table>

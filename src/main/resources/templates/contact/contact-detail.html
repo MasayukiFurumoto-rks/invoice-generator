@@ -41,7 +41,14 @@
 	              <th class="align-middle"></th>
 	              <th class="align-middle">詳細</th>
               </tr>
-              
+              <tr>
+                <th class="align-middle">取引先</th>
+                <td class="align-middle">
+                    <a th:href="@{/client/showDetail?id=}+${contact.belongs.id}">
+                 		 <span th:text="${contact.belongs.name}">ポート株式会社</span>
+                	</a>
+                </td>
+              </tr>
               <tr>
                 <th class="align-middle">取引先担当者ID</th>
                 <td class="align-middle"><span th:text="${contact.id}">xx</span></td>
@@ -52,14 +59,7 @@
                     <span th:text="${contact.name}">楽楽精算</span>
                 </td>
               </tr>
-              <tr>
-                <th class="align-middle">取引先</th>
-                <td class="align-middle">
-                    <a th:href="@{/client/showDetail?id=}+${contact.belongs.id}">
-                 		 <span th:text="${contact.belongs.name}">ポート株式会社</span>
-                	</a>
-                </td>
-              </tr>
+              
               <tr>
                 <th class="align-middle">所属部署</th>
                 <td class="align-middle">
