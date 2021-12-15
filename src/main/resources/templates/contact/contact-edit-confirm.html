@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <title>取引先担当者編集</title>
+  </head>
+  <body>
+    <div th:insert="fragment_part :: frag_header"></div>
+    
+    
+    <div class="container">
+   	<ol class="breadcrumb">
+	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
+		<li class="breadcrumb-item"><a href="contact-list.html" th:href="@{/contact/showList}">取引先担当者一覧</a></li>
+		<li class="breadcrumb-item"><a href="contact-detail.html" th:href="@{/contact/showDetail?id=}+${contact.id}">取引先担当者詳細</a></li>
+		<li class="breadcrumb-item"><a href="contact-edit.html" th:href="@{/contact/edit?id=}+${contact.id}">取引先担当者編集</a></li>
+		<li class="breadcrumb-item active">取引先担当者編集確認</li>
+	</ol>
+	
+	
+      <!-- table -->
+      <div class="row justify-content-center">
+        <div
+          class="
+            table-responsive
+            col-lg-offset-1
+            col-lg-10
+            col-md-offset-1
+            col-md-10
+            col-sm-12
+            col-xs-12
+          "
+        >
+          <!-- ここから上を編集する必要はありません -->
+          <h3>取引先担当者編集確認</h3>
+          <form th:action="@{/contact/edit/finish}" method="post" th:object="${contactEditForm}">
+          <table class="table table-striped">
+              <tr>
+              <th style="width:20%;"></th>
+              <th style="width:40%;">変更前</th>
+              <th style="width:40%;">変更後</th>
+              </tr>
+              
+                            <tr>
+                <th class="align-middle">取引先担当者ID</th>
+                <td class="align-middle"><span th:text="${contact.id}">xx</span></td>
+                <td class="align-middle"><span th:text="${editedContact.id}">xx</span></td>
+              </tr>
+              <tr>
+                <th class="align-middle">取引先担当者名</th>
+                <td class="align-middle">
+                    <span th:text="${contact.name}">楽楽精算</span>
+                </td>
+                <td class="align-middle">
+                    <span th:text="${editedContact.name}">楽楽精算</span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">所在地</th>
+                <td class="align-middle">
+                    〒<span th:text="${contact.zipcode}">191-0022</span><br>
+                    <span th:text="${contact.address}">東京都新宿区西新宿1-1-1</span>
+                    <span th:text="${contact.building}">住友不動産新宿グランドタワー</span>
+                </td>
+                <td class="align-middle">
+                    〒<span th:text="${editedContact.zipcode}">191-0022</span><br>
+                    <span th:text="${editedContact.address}">東京都新宿区西新宿1-1-1</span>
+                    <span th:text="${editedContact.building}">住友不動産新宿グランドタワー</span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">与信限度額</th>
+                <td class="align-middle">
+                  <span
+                    th:text="${#numbers.formatInteger(contact.creditLimit,1,'COMMA')}+円"
+                    >300,000,000円</span
+                  >
+                </td>
+                <td class="align-middle">
+                  <span
+                    th:text="${#numbers.formatInteger(editedContact.creditLimit,1,'COMMA')}+円"
+                    >300,000,000円</span
+                  >
+                </td>
+              </tr>
+              
+              <tr>
+                <th class="align-middle">取引先担当者所有者</th>
+                <td class="align-middle">
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${contact.owner.id}"
+                    ><span th:text="${contact.owner.name}">古本昌幸</span>
+                  </a>
+                </td>
+                <td class="align-middle">
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${editedContact.owner.id}"
+                    ><span th:text="${editedContact.owner.name}">古本昌幸</span>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr>
+                <th class="align-middle">備考</th>
+                <td class="align-middle">
+	                   <th:block th:if="${contact.remarks}">
+					    <th:block th:each="str, stat : ${contact.remarks.split('\r\n|\r|\n', -1)}">
+					        <th:block th:text="${str}"/>
+					        <br th:if="${!stat.last}"/>
+					    </th:block>
+					</th:block>
+                </td>
+                <td class="align-middle">
+	                   <th:block th:if="${editedContact.remarks}">
+					    <th:block th:each="str, stat : ${editedContact.remarks.split('\r\n|\r|\n', -1)}">
+					        <th:block th:text="${str}"/>
+					        <br th:if="${!stat.last}"/>
+					    </th:block>
+					</th:block>
+                </td>
+              </tr>
+          </table>
+          <div>
+	          <button
+	              type="submit"
+	              class="
+	                btn btn-outline-primary
+	                 offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	            >
+	             この内容で決定
+	            </button>
+          </div>
+          </form>
+          <br>
+          <div>
+	         <a
+	              type="button"
+	              class="
+	                btn btn-dark
+	                offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	              href="contact-edit.html"
+	              th:href="@{/contact/edit?id=}+${contact.id}"
+	            >
+	             編集に戻る
+            </a>
+          </div>
+          <br>
+          <div>
+	         <a
+	              type="button"
+	              class="
+	                btn btn-outline-warning
+	                offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	              href="contact-edit.html"
+	              th:href="@{/contact/showDetail?id=}+${contact.id}"
+	            >
+	             編集をやめる
+            </a>
+          </div>
+          <br>
+          <br>
+		  </div>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+  </body>
+</html>

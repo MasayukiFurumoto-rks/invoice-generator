@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.ContactDao">
+	<resultMap id="contactMap" type="com.example.entity.Contact">
+		<id column="id" />
+		<result column="contacts_id" property="id" />
+		<result column="contacts_name" property="name" />
+		<result column="contacts_client_id" property="clientId" />
+		<result column="contacts_department" property="department" />
+		<result column="contacts_position" property="position" />
+		<result column="contacts_telephone" property="telephone" />
+		<result column="contacts_email" property="email" />
+		<result column="user_id" property="ownerId" />
+		<association property="owner" resultMap="userMap"></association>
+		<association property="belongs" resultMap="clientMap"></association>
+	</resultMap>
+	
+	<resultMap id="clientMap" type="com.example.entity.Client">
+		<id column="id" />
+		<result column="client_id" property="id" />
+		<result column="client_name" property="name" />
+	</resultMap>
+	
+	<resultMap id="userMap" type="com.example.entity.User">
+		<id     column="user_id" 	property="id"/>
+		<result column="user_name" 	property="name"/>
+	</resultMap>
+	
+	<select id="findById" resultMap="clientMap">
+				SELECT
+		cont.contacts_id,
+		cont.contacts_name,
+		cont.contacts_client_id,
+		cont.contacts_department,
+		cont.contacts_position,
+		cont.contacts_telephone,
+		cont.contacts_email,
+		cont.contacts_owner_id AS user_id,
+		u.name AS user_name,
+		cl.clients_id AS client_id,
+		cl.clients_name AS client_name
+		FROM
+		contacts AS cont 
+		LEFT JOIN clients AS cl 
+		ON cont.contacts_client_id = cl.clients_id		
+		LEFT JOIN users AS u
+		ON cont.contacts_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		WHERE
+		cont.contacts_id= #{id}
+		AND
+		uc.user_companies_id = #{companyId}
+		AND
+		cont.contacts_deleted = false
+	</select>
+	<select id="findByCompanyId" resultMap="contactMap">
+		SELECT
+		cont.contacts_id,
+		cont.contacts_name,
+		cont.contacts_client_id,
+		cont.contacts_department,
+		cont.contacts_position,
+		cont.contacts_telephone,
+		cont.contacts_email,
+		cont.contacts_owner_id AS user_id,
+		u.name AS user_name,
+		cl.clients_id AS client_id,
+		cl.clients_name AS client_name
+		FROM
+		contacts AS cont 
+		LEFT JOIN clients AS cl 
+		ON cont.contacts_client_id = cl.clients_id		
+		LEFT JOIN users AS u
+		ON cont.contacts_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		WHERE
+		uc.user_companies_id = #{companyId}
+		and
+		cont.contacts_deleted = false
+		
+	</select>
+	
+	<insert id="insertContact" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+		clients 
+		(clients_name,clients_zipcode,clients_address,clients_building,clients_telephone,clients_credit_limit,clients_owner_id,clients_remarks)
+		values
+		(#{name},#{zipcode},#{address},#{building},#{telephone},#{creditLimit},#{ownerId},#{remarks})
+	</insert>
+
+	<update id="updateContact">
+		UPDATE
+		clients
+		SET 
+		clients_name = #{name},
+		clients_zipcode = #{zipcode},
+		clients_address = #{address},
+		clients_building = #{building},
+		clients_telephone =	#{telephone},
+		clients_credit_limit = #{creditLimit},
+		clients_owner_id = #{ownerId},
+		clients_remarks = #{remarks},
+		clients_deleted = #{deleted}
+		WHERE
+		clients_id = #{id}
+	</update>
+</mapper>

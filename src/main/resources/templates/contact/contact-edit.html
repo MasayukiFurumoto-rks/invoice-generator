@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <title>取引先担当者編集</title>
+  </head>
+  <body>
+    <div th:insert="fragment_part :: frag_header"></div>
+    
+    
+    <div class="container">
+   	<ol class="breadcrumb">
+	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
+		<li class="breadcrumb-item"><a href="contact-list.html" th:href="@{/contact/showList}">取引先担当者一覧</a></li>
+		<li class="breadcrumb-item"><a href="contact-detail.html" th:href="@{/contact/showDetail?id=}+${contact.id}">取引先担当者詳細</a></li>
+		<li class="breadcrumb-item active">取引先担当者編集</li>
+	</ol>
+	
+      <!-- table -->
+      <div class="row justify-content-center">
+        <div
+          class="
+            table-responsive
+            col-lg-offset-1
+            col-lg-10
+            col-md-offset-1
+            col-md-10
+            col-sm-12
+            col-xs-12
+          "
+        >
+          <!-- ここから上を編集する必要はありません -->
+          <h3>取引先担当者編集</h3>
+          <form th:action="@{/contact/edit/confirm}" method="post" th:object="${contactEditForm}">
+          <table class="table table-striped">
+              <tr>
+              <th style="width:20%;"></th>
+              <th style="width:40%;">詳細</th>
+              <th style="width:40%;">入力欄</th>
+              </tr>
+              <tr>
+                <th class="align-middle">取引先担当者ID</th>
+                <td class="align-middle"><span th:text="${contact.id}">xx</span></td>
+                <td>
+             	   <input type="hidden" name="id" th:value="${contact.id}">
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle"><label for="contactName">取引先担当者名</label></th>
+                <td class="align-middle">
+                    <label for="contactName"><span th:text="${contact.name}">楽楽精算</span></label>
+                </td>
+                <td class="align-middle">
+                	<div th:errors="*{name}" class="text-danger"></div>
+                    <span th:if="*{name}!=null">
+	                    <input type="text"
+	                    id="contactName"
+	                    name="name"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.name}"
+	                    th:field="*{name}">
+                    </span>
+                    <span th:unless="*{name}!=null">
+	                    <input type="text"
+	                    id="contactName"
+	                    name="name"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.name}"
+	                    >
+                    </span>
+                </td>
+               
+              </tr>
+              <tr>
+                <th class="align-middle">郵便番号</th>
+                <td class="align-middle">
+                    〒<span th:text="${contact.zipcode}">191-0022</span><br>
+                    
+                </td>
+               <td class="align-middle">
+                	<div th:errors="*{zipcode}" class="text-danger"></div>
+                    <div th:if="*{zipcode}!=null">
+	                    <input type="text"
+	                    id="zipcode"
+	                    name="zipcode"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.zipcode}"
+	                    th:field="*{zipcode}">
+                    </div>
+                    <div th:unless="*{zipcode}!=null">
+	                    <input type="text"
+	                    id="zipcode"
+	                    name="zipcode"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.zipcode}"
+	                    >
+                    </div>
+                    <button type="button" id="getAddress" class="btn btn-sm btn-secondary">住所検索</button>
+				  </td>
+              </tr>
+              <tr>
+                <th class="align-middle">住所</th>
+                <td class="align-middle">
+                    <span th:text="${contact.address}">東京都新宿区西新宿1-1-1</span>
+                    
+                </td>
+				<td class="align-middle">
+                	<div th:errors="*{address}" class="text-danger"></div>
+                    <span th:if="*{address}!=null">
+	                    <input type="text"
+	                    id="address"
+	                    name="address"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.address}"
+	                    th:field="*{address}">
+                    </span>
+                    <span th:unless="*{address}!=null">
+	                    <input type="text"
+	                    id="address"
+	                    name="address"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.address}"
+	                    >
+                    </span>
+                    
+               </td>
+              </tr>
+              <tr>
+                <th class="align-middle">建物</th>
+                <td class="align-middle">
+                    <span th:text="${contact.building}">住友不動産新宿グランドタワー</span>
+                    
+                </td>
+				<td class="align-middle">
+                	<div th:errors="*{building}" class="text-danger"></div>
+                    <span th:if="*{building}!=null">
+	                    <input type="text"
+	                    id="building"
+	                    name="building"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.building}"
+	                    th:field="*{building}">
+                    </span>
+                    <span th:unless="*{building}!=null">
+	                    <input type="text"
+	                    id="building"
+	                    name="building"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.building}"
+	                    >
+                    </span>
+                </td>
+                
+                
+              </tr>
+              <tr>
+                <th class="align-middle">電話番号</th>
+                <td class="align-middle">
+                    <span th:text="${contact.telephone}">090-0000-0000</span><br>
+                </td>
+                <td class="align-middle">
+					<div th:errors="*{telephone}" class="text-danger"></div>
+                    <span th:if="*{telephone}!=null">
+	                    <input type="text"
+	                    id="telephone"
+	                    name="telephone"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.telephone}"
+	                    th:field="*{telephone}">
+                    </span>
+                    <span th:unless="*{telephone}!=null">
+	                    <input type="text"
+	                    id="telephone"
+	                    name="telephone"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.telephone}"
+	                    >
+                    </span>
+                 </td>
+              </tr>
+              
+              <tr>
+                <th class="align-middle">与信限度額</th>
+                <td class="align-middle">
+                  <span
+                    th:text="${#numbers.formatInteger(contact.creditLimit,1,'COMMA')}+円"
+                    >300,000,000円</span
+                  >
+                </td>
+                <td class="align-middle">
+                  <div th:errors="*{creditLimit}" class="text-danger"></div>
+                    <span th:if="*{creditLimit}!=null">
+	                    <input type="text"
+	                    id="creditLimit"
+	                    name="creditLimit"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.creditLimit}"
+	                    th:field="*{creditLimit}">
+                    </span>
+                    <span th:unless="*{creditLimit}!=null">
+	                    <input type="text"
+	                    id="creditLimit"
+	                    name="creditLimit"
+	                    class="form-control form-control-sm"
+	                    th:value="${contact.creditLimit}"
+	                    >
+                    </span>
+                </td>
+                
+              </tr>
+              
+              <tr>
+                <th class="align-middle">取引先担当者所有者</th>
+                <td class="align-middle">
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${contact.owner.id}"
+                    ><span th:text="${contact.owner.name}">古本昌幸</span>
+                  </a>
+                </td>
+                 <td>
+                 <div th:errors="*{ownerId}" class="text-danger"></div>
+		              <div th:if="*{ownerId}!=null">
+						<select th:field="*{ownerId}" class="form-select form-select-sm" aria-label=".form-select-sm">
+							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}"></option>
+	              		</select>
+	                  </div>
+	                  <div th:unless="*{ownerId}!=null">
+		                <select id="ownerId" name="ownerId" class="form-select form-select-sm" aria-label=".form-select-sm">
+							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}" th:selected="${owner.id} == ${contact.owner.id}"></option>
+	              		</select>
+	                  </div>
+                </td>
+              </tr>
+            
+              <tr>
+                <th class="align-middle">備考</th>
+                <td class="align-middle">
+	                   <th:block th:if="${contact.remarks}">
+					    <th:block th:each="str, stat : ${contact.remarks.split('\r\n|\r|\n', -1)}">
+					        <th:block th:text="${str}"/>
+					        <br th:if="${!stat.last}"/>
+					    </th:block>
+					</th:block>
+                </td>
+                <td class="align-middle">
+               	  <div th:errors="*{remarks}" class="text-danger"></div>
+                  <span th:if="*{remarks}!=null">
+	               <textarea 
+                   id="contactRemarks" 
+                   name="remarks"
+                   class="form-control form-control-sm"
+                   th:text="${contact.remarks}"
+                   th:field="*{remarks}">
+                   </textarea>
+                  </span>
+                  <span th:unless="*{remarks}!=null">
+	                <textarea 
+	                   id="contactRemarks" 
+	                   name="remarks"
+	                   class="form-control form-control-sm"
+	                   th:text="${contact.remarks}">
+	                </textarea>
+                  </span>
+                    
+               </td>
+              </tr>
+              
+              
+          </table>
+          <div>
+	          <button
+	              type="submit"
+	              class="
+	                btn btn-primary
+	                 offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	            >
+	             編集内容を確認
+	            </button>
+          </div>
+          </form>
+          <br>
+          <div>
+	         <a
+	              type="button"
+	              class="
+	                btn btn-light
+	                offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4
+	              "
+	              href="contact-detail.html"
+	              th:href="@{/contact/showDetail?id=}+${contact.id}"
+	            >
+	             編集をやめる
+            </a>
+          </div>
+          <br>
+          <br>
+          <div class="offset-lg-5
+	                col-lg-2
+	                offset-sm-4
+	                col-sm-4">
+	          <div class="accordion accordion-flush" id="accordionExample">
+				  <div class="accordion-contact">
+				    <h2 class="accordion-header" id="headingOne">
+				      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				        取引先担当者の削除
+				      </button>
+				    </h2>
+				    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+				      <div class="accordion-body">
+     	                <div class="row justify-content-center">
+				         <a
+		              type="button"
+		              class="
+		                btn btn-danger
+		              "
+		              href="contact-delete-confirm.html"
+		              th:href="@{/contact/delete/confirm?id=}+${contact.id}"
+		            >
+		             この取引先担当者を削除する
+	            </a>
+	            </div>
+				      </div>
+				    </div>
+				  </div>
+		  </div>
+		  </div>
+		  </div>
+	        
+	          
+
+          <!-- ここから下を編集する必要はありません -->
+        </div>
+      </div>
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    <script src="/js/zipcoda.js"></script>
+  </body>
+</html>
