@@ -43,8 +43,9 @@
             <thead>
               <tr>
                 <th>取引先担当者名</th>
-                <th>与信限度額</th>
-                <th>作成者</th>
+                <th>取引先名</th>
+                <th>部署</th>
+                <th>取引先所有者</th>
                 <th style="width:10%;"></th>
               </tr>
             </thead>
@@ -55,13 +56,18 @@
                     href="contact-detail.html"
                     th:href="@{/contact/showDetail?id=}+${contact.id}"
                   >
-                    <span th:text="${contact.name}">楽楽精算</span>
+                    <span class="fw-bold" th:text="${contact.name}">赤塩勇太</span>
                   </a>
                 </td>
                 <td class="align-middle">
-                  <span
-                    th:text="${#numbers.formatInteger(contact.creditLimit,1,'COMMA')}+円"
-                    >300,000,000円</span
+                  <a th:href="@{/client/showDetail?id=}+${contact.belongs.id}">
+                  <span th:text="${contact.belongs.name}"
+                    >ポート株式会社</span
+                  ></a>
+                </td>
+                <td class="align-middle">
+                  <span th:text="${contact.department}"
+                    >就職支援事業部</span
                   >
                 </td>
                 <td class="align-middle">

@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.example.entity.Contact;
-import com.example.entity.Item;
 
 @Mapper
 public interface ContactDao {

@@ -18,7 +18,6 @@
 	</resultMap>
 	
 	<resultMap id="clientMap" type="com.example.entity.Client">
-		<id column="id" />
 		<result column="client_id" property="id" />
 		<result column="client_name" property="name" />
 	</resultMap>
@@ -28,8 +27,8 @@
 		<result column="user_name" 	property="name"/>
 	</resultMap>
 	
-	<select id="findById" resultMap="clientMap">
-				SELECT
+	<select id="findById" resultMap="contactMap">
+		SELECT
 		cont.contacts_id,
 		cont.contacts_name,
 		cont.contacts_client_id,
