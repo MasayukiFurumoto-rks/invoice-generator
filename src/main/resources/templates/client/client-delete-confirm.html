@@ -44,45 +44,74 @@
               </tr>
               
               <tr>
-                <th>取引先ID</th>
-                <td><span th:text="${client.id}">xx</span></td>
+                <th class="align-middle">取引先ID</th>
+                <td class="align-middle"><span th:text="${client.id}">xx</span></td>
               </tr>
               <tr>
-                <th>取引先名</th>
-                <td>
+                <th class="align-middle">取引先名</th>
+                <td class="align-middle">
                     <span th:text="${client.name}">楽楽精算</span>
                 </td>
               </tr>
               <tr>
-                <th>単価</th>
-                <td>
+                <th class="align-middle">所在地</th>
+                <td class="align-middle">
+                    〒<span th:text="${client.zipcode}">191-0022</span><br>
+                    <span th:text="${client.address}">東京都新宿区西新宿1-1-1</span>
+                    <span th:text="${client.building}">住友不動産新宿グランドタワー</span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">電話番号</th>
+                <td class="align-middle">
+                    <span th:text="${client.telephone}">090-0000-0000</span><br>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">与信限度額</th>
+                <td class="align-middle">
                   <span
-                    th:text="${#numbers.formatInteger(client.price,1,'COMMA')}+円"
+                    th:text="${#numbers.formatInteger(client.creditLimit,1,'COMMA')}+円"
                     >300,000,000円</span
                   >
                 </td>
               </tr>
+              
               <tr>
-                <th>説明</th>
-                <td>
-	                   <th:block th:if="${client.description}">
-					    <th:block th:each="str, stat : ${client.description.split('\r\n|\r|\n', -1)}">
+                <th class="align-middle">取引先所有者</th>
+                <td class="align-middle">
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${client.owner.id}"
+                    ><span th:text="${client.owner.name}">古本昌幸</span>
+                  </a>
+                </td>
+              </tr>
+            
+              <tr>
+                <th class="align-middle">備考</th>
+                <td class="align-middle">
+	                   <th:block th:if="${client.remarks}">
+					    <th:block th:each="str, stat : ${client.remarks.split('\r\n|\r|\n', -1)}">
 					        <th:block th:text="${str}"/>
 					        <br th:if="${!stat.last}"/>
 					    </th:block>
 					</th:block>
                 </td>
               </tr>
-              <tr>
-                <th>作成者</th>
-                <td>
-                  <a
-                    href="user-detail.html"
-                    th:href="@{/user/showDetail?id=}+${client.createdBy.id}"
-                    ><span th:text="${client.createdBy.name}">古本昌幸</span>
-                  </a>
-                </td>
-              </tr>
+          </table>
+          <br>
+          <h4>この企業との取引一覧</h4>
+          <div th:if="${untradeMessage}">
+          	<span th:text="${untradeMessage}">この企業との取引はまだありません。</span>
+          </div>
+          <div th:unless="${untradeMessage}">
+	          <table class="table table-striped">
+	              <tr th:each="trade:${client.tradeList}">
+		              <th></th>
+		              <td></td>
+	              </tr>
+
           </table>
           <br>
           <div class="text-center">この取引先を削除します。よろしいですか？</div>
