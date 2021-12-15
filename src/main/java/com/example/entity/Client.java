@@ -111,11 +111,20 @@ public class Client {
 		this.deleted = deleted;
 	}
 
+	public List<Trade> getTradeList() {
+		return tradeList;
+	}
+
+	public void setTradeList(List<Trade> tradeList) {
+		this.tradeList = tradeList;
+	}
+
 	@Override
 	public String toString() {
 		return "Client [id=" + id + ", name=" + name + ", zipcode=" + zipcode + ", address=" + address + ", building="
 				+ building + ", telephone=" + telephone + ", creditLimit=" + creditLimit + ", ownerId=" + ownerId
-				+ ", owner=" + owner + ", remarks=" + remarks + ", deleted=" + deleted + "]";
+				+ ", owner=" + owner + ", remarks=" + remarks + ", deleted=" + deleted + ", tradeList=" + tradeList
+				+ "]";
 	}
 
 }

@@ -151,7 +151,6 @@
                 </td>
                 <td>
                  <div th:errors="*{ownerId}" class="text-danger"></div>
-	             <div class="mb-3">
 		              <div th:if="*{ownerId}!=null">
 						<select th:field="*{ownerId}" class="form-select form-select-sm" aria-label=".form-select-sm">
 							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}"></option>
@@ -164,7 +163,6 @@
 	                  </div>
 	              
 	              
-		         </div>
                 </td>
               </tr>
           </table>

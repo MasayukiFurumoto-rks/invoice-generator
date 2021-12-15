@@ -38,6 +38,11 @@ public class UserController {
 	public SignUpForm setUpSignUpForm() {
 		return new SignUpForm();
 	}
+	
+	@ModelAttribute
+	public SignInForm setUpSignInForm() {
+		return new SignInForm();
+	}
 
 	@RequestMapping("/to-sign-up")
 	public String toSignUp(Model model) {

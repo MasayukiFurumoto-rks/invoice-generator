@@ -17,7 +17,7 @@ public class ClientInsertForm {
 	private String name;
 
 	/** 郵便番号 */
-	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はハイフンありの形式で入力してください。")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はハイフンありの形式(XXX-XXXX)で入力してください。")
 	private String zipcode;
 
 	/** 住所 */
@@ -28,7 +28,7 @@ public class ClientInsertForm {
 	private String building;
 
 	/** 電話番号 */
-	@Pattern(regexp = "^0[-0-9]{11,12}$", message = "電話番号はハイフンありの形式で入力してください。")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はハイフンありの形式(XXX-XXXX)で入力してください。")
 	private String telephone;
 
 	/** 与信限度額 */

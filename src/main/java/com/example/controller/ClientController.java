@@ -74,6 +74,14 @@ public class ClientController {
 		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
 
 		Client client = clientService.findById(id, comIdOfUser);
+		if(client.getTradeList() == null) {
+			model.addAttribute("untradeMessage", "この企業との取引はまだありません");
+		}else {
+			if(client.getTradeList().size() ==0) {
+			model.addAttribute("untradeMessage", "この企業との取引はまだありません");
+			}
+		}
+	
 		model.addAttribute("client", client);
 		return "client/client-detail.html";
 	}
@@ -103,10 +111,12 @@ public class ClientController {
 		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
 
 		Client client = clientService.findById(form.getId(), comIdOfUser);
-
+		
 		Client editedClient = clientService.findById(form.getId(), comIdOfUser);
 		BeanUtils.copyProperties(form, editedClient);
+		editedClient.setCreditLimit(form.getIntCreditLimit());
 		editedClient.setOwner(userService.findById(form.getOwnerId()));
+		
 
 		System.out.println("editedClient:" + editedClient);
 

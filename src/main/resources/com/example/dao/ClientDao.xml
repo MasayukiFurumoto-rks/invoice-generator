@@ -43,7 +43,7 @@
 		LEFT JOIN user_companies AS uc 
 		ON ud.user_company_id = uc.user_companies_id
 		WHERE
-		id= #{id}
+		c.clients_id= #{id}
 		AND
 		uc.user_companies_id = #{companyId}
 		AND
@@ -75,10 +75,29 @@
 		c.clients_deleted = false
 		
 	</select>
-<!-- 	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id"> -->
-<!-- 		insert into users (name,email,password,user_companies_id) -->
-<!-- 		values -->
-<!-- 		(#{name},#{email},#{password},#{userCompaniesId}) -->
-<!-- 	</insert> -->
+	
+	<insert id="insertClient" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+		clients 
+		(client_name,client_price,client_description,client_owner_id)
+		values
+		(#{name},#{price},#{description},#{ownerId})
+	</insert>
 
+	<update id="updateClient">
+		UPDATE
+		clients
+		SET 
+		clients_name = #{name},
+		clients_zipcode = #{zipcode},
+		clients_address = #{address},
+		clients_building = #{building},
+		clients_telephone = #{telephone},
+		clients_credit_limit = #{creditLimit},
+		clients_owner_id = #{ownerId},
+		clients_remarks = #{remarks},
+		clients_deleted = #{deleted}
+		WHERE
+		clients_id = #{id}
+	</update>
 </mapper>

@@ -19,7 +19,7 @@ public class ClientEditForm {
 	private String name;
 
 	/** 郵便番号 */
-	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はハイフンありの形式で入力してください。")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はハイフンありの形式(XXX-XXXX)で入力してください。")
 	private String zipcode;
 
 	/** 住所 */
