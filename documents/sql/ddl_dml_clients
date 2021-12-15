@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS clients;
 
 CREATE TABLE clients (
 clients_id serial NOT NULL,
-clients_name varchar(20) NOT NULL,
+clients_name varchar(50) NOT NULL,
 clients_zipcode varchar(8) NOT NULL,
 clients_address varchar(50) NOT NULL,
 clients_building varchar(50) NOT NULL default '',

@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 import lombok.Data;
 
 /**
- * @author cyjoh 商品データを編集するためにデータを受け取るフォームクラスです。
+ * @author cyjoh 取引先データを編集するためにデータを受け取るフォームクラスです。
  *
  */
 @Data
@@ -15,7 +15,7 @@ public class ClientEditForm {
 	private Integer id;
 
 	/** 企業名 */
-	@NotBlank(message = "商品名は必ず入力してください。")
+	@NotBlank(message = "取引先名は必ず入力してください。")
 	private String name;
 
 	/** 郵便番号 */
@@ -30,7 +30,7 @@ public class ClientEditForm {
 	private String building;
 
 	/** 電話番号 */
-	@Pattern(regexp = "^0[-0-9]{11,12}$", message = "電話番号はハイフンありの形式で入力してください。")
+	@Pattern(regexp = "^0\\d{1,3}-\\d{2,4}-\\d{4}$", message = "電話番号はハイフンありの形式(000-0000-0000)で入力してください。")
 	private String telephone;
 
 	/** 与信限度額 */

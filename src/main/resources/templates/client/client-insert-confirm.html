@@ -46,37 +46,55 @@
               </tr>
               
               <tr>
-	              <th class="align-middle"><label for="clientName">取引先名</label></th>
-	              <td class="align-middle">
-	              	<span th:text="${insertingClient.name}">楽楽精算</span>
-	              </td>
-               
+                <th class="align-middle">取引先名</th>
+                <td class="align-middle">
+                    <span th:text="${insertingClient.name}">楽楽精算</span>
+                </td>
               </tr>
               <tr>
-	              <th class="align-middle">単価</th>
-	              <td class="align-middle">
-	                  <span th:text="${#numbers.formatInteger(insertingClient.price,1,'COMMA')}+円">300,000,000円</span>
-	              </td>
+                <th class="align-middle">所在地</th>
+                <td class="align-middle">
+                    〒<span th:text="${insertingClient.zipcode}">191-0022</span><br>
+                    <span th:text="${insertingClient.address}">東京都新宿区西新宿1-1-1</span>
+                    <span th:text="${insertingClient.building}">住友不動産新宿グランドタワー</span>
+                </td>
               </tr>
               <tr>
-	              <th class="align-middle">説明</th>
-	              <td class="align-middle">
-					<th:block th:if="${insertingClient.description}">
-					   	<th:block th:each="str, stat : ${insertingClient.description.split('\r\n|\r|\n', -1)}">
-					       <th:block th:text="${str}"/>
-					       <br th:if="${!stat.last}"/>
-						</th:block>
-					</th:block>
-	              </td>
+                <th class="align-middle">電話番号</th>
+                <td class="align-middle">
+                    <span th:text="${insertingClient.telephone}">090-0000-0000</span><br>
+                </td>
               </tr>
               <tr>
-                <th>作成者</th>
-                <td>
+                <th class="align-middle">与信限度額</th>
+                <td class="align-middle">
+                  <span
+                    th:text="${#numbers.formatInteger(insertingClient.creditLimit,1,'COMMA')}+円"
+                    >300,000,000円</span
+                  >
+                </td>
+              </tr>
+              
+              <tr>
+                <th class="align-middle">取引先所有者</th>
+                <td class="align-middle">
                   <a
                     href="user-detail.html"
-                    th:href="@{/user/showDetail?id=}+${insertingClient.createdBy.id}"
-                    ><span th:text="${insertingClient.createdBy.name}">古本昌幸</span>
+                    th:href="@{/user/showDetail?id=}+${insertingClient.owner.id}"
+                    ><span th:text="${insertingClient.owner.name}">古本昌幸</span>
                   </a>
+                </td>
+              </tr>
+            
+              <tr>
+                <th class="align-middle">備考</th>
+                <td class="align-middle">
+	                   <th:block th:if="${insertingClient.remarks}">
+					    <th:block th:each="str, stat : ${insertingClient.remarks.split('\r\n|\r|\n', -1)}">
+					        <th:block th:text="${str}"/>
+					        <br th:if="${!stat.last}"/>
+					    </th:block>
+					</th:block>
                 </td>
               </tr>
           </table>

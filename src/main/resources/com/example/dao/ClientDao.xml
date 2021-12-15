@@ -79,9 +79,9 @@
 	<insert id="insertClient" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO 
 		clients 
-		(client_name,client_price,client_description,client_owner_id)
+		(clients_name,clients_zipcode,clients_address,clients_building,clients_telephone,clients_credit_limit,clients_owner_id,clients_remarks)
 		values
-		(#{name},#{price},#{description},#{ownerId})
+		(#{name},#{zipcode},#{address},#{building},#{telephone},#{creditLimit},#{ownerId},#{remarks})
 	</insert>
 
 	<update id="updateClient">
@@ -92,7 +92,7 @@
 		clients_zipcode = #{zipcode},
 		clients_address = #{address},
 		clients_building = #{building},
-		clients_telephone = #{telephone},
+		clients_telephone =	#{telephone},
 		clients_credit_limit = #{creditLimit},
 		clients_owner_id = #{ownerId},
 		clients_remarks = #{remarks},
