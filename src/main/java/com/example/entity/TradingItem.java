@@ -17,6 +17,10 @@ public class TradingItem {
 	private String remarks;
 	private Integer ownerId;
 	private User owner;
+	
+	public int getSubTotal() {
+		return item.getPrice() * quantity;
+	}
 
 	public Integer getId() {
 		return id;

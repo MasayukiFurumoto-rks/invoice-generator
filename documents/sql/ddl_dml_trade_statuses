@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS trade_statuses;
+
+CREATE TABLE trade_statuses (
+trades_statuses_id serial NOT NULL,
+trades_statuses_key BIGINT UNSIGNED NOT NULL,
+trades_statuses_value varchar(15) NOT NULL
+);
+
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (1,'アポイント獲得');
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (2,'提案中');
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (3,'先方検討中・後追い');
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (4,'口頭受注');
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (5,'申込書送付済み、契約締結中');
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (6,'受注');
+INSERT INTO trade_statuses (trades_statuses_key,trades_statuses_value)
+VALUES (7,'失注');
+

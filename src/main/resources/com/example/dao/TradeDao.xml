@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.TradeDao">
+	<resultMap id="tradeMap" type="com.example.entity.Trade">
+		<id 	column="trades_id" 			property="id"/>
+		<result column="trades_name"		property="name" />
+		<result column="trades_trade_status_key"	property="statusKey" />
+		<result column="trade_statuses_value"		property="statusValue" />
+		<result column="trades_date"		property="date" />
+		<result column="contact_id"			property="contactId" />
+		<result column="user_id" 			property="ownerId" />
+		<result column="trades_remarks"		property="remarks" />
+		<result column="trades_deleted"		property="deleted" />
+		<result column="trades_invoice_id"	property="invoiceId" />
+		<association resultMap="contactMap"	property="contact"></association>
+		<association resultMap="userMap"	property="owner" ></association>
+		<collection							property="tradingItemList" ofType="com.example.entity.TradingItem">
+			<result column="trading_items_id"		property="id"	></result>
+			<result column="trading_items_quantity" property="quantity"	></result>
+			<result column="trading_items_remarks" 	property="remarks"	></result>
+			<association resultMap="itemMap"		property="item"></association>
+		</collection>
+	</resultMap>
+	<resultMap id="contactMap" type="com.example.entity.Contact">
+		<result column="contacts_id"		property="id" />
+		<result column="contacts_name" 		property="name" />
+		<result column="contacts_client_id" property="clientId" />
+		<association resultMap="clientMap"	property="belongs" ></association>
+	</resultMap>
+	
+	<resultMap id="clientMap" type="com.example.entity.Client">
+		<result column="client_id"	 property="id" />
+		<result column="client_name" property="name" />
+	</resultMap>
+	
+	<resultMap id="userMap" type="com.example.entity.User">
+		<id     column="user_id" 	property="id"/>
+		<result column="user_name" 	property="name"/>
+	</resultMap>
+	
+	<resultMap id="itemMap" type="com.example.entity.Item">
+		<id     column="items_id" 			property="id"/>
+		<result column="items_name" 		property="name"/>
+		<result column="items_price" 		property="price"/>
+	</resultMap>
+	
+	<select id="findById" 			resultMap="tradeMap">
+		SELECT
+		cont.contacts_id,
+		cont.contacts_name,
+		cont.contacts_client_id,
+		cont.contacts_department,
+		cont.contacts_position,
+		cont.contacts_telephone,
+		cont.contacts_email,
+		cont.contacts_owner_id AS user_id,
+		u.name AS user_name,
+		cl.clients_id AS client_id,
+		cl.clients_name AS client_name
+		FROM
+		contacts AS cont 
+		LEFT JOIN clients AS cl 
+		ON cont.contacts_client_id = cl.clients_id		
+		LEFT JOIN users AS u
+		ON cont.contacts_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		WHERE
+		cont.contacts_id= #{id}
+		AND
+		uc.user_companies_id = #{companyId}
+		AND
+		cont.contacts_deleted = false
+	</select>
+	<select id="findByCompanyId" 	resultMap="tradeMap">
+		SELECT
+		t.trades_id,
+		t.trades_name,
+		t.trades_trade_status_key,
+		ts.trades_statuses_value,
+		t.trades_date,
+		t.trades_contact_id AS contact_id,
+		cont.contacts_id,
+		cont.contacts_name,
+		cont.contacts_client_id AS client_id,
+		cl.clients_name AS client_name,
+		t.trades_owner_id AS user_id,
+		u.name AS user_name,
+		t.trades_remarks,
+		t.trades_deleted,
+		t.trades_invoice_id,
+		cl.clients_id AS client_id,
+		cl.clients_name AS client_name,
+		ti.trading_items_id AS trading_items_id,
+		ti.trading_items_quantity AS trading_items_quantity,
+		ti.trading_items_remarks AS trading_items_remarks,
+		i.items_id AS items_id,
+		i.items_name AS items_name,
+		i.items_price AS items_price
+		FROM
+		trades AS t
+		LEFT JOIN trade_statuses AS ts 
+		ON t.trades_trade_status_key = ts.trades_statuses_key		
+		LEFT JOIN contacts AS cont 
+		ON t.trades_contact_id = cont.contacts_id		
+		LEFT JOIN clients AS cl 
+		ON cont.contacts_client_id = cl.clients_id		
+		LEFT JOIN users AS u
+		ON t.trades_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		LEFT JOIN trading_items AS ti
+		ON t.trades_id = ti.trading_items_trade_id
+		LEFT JOIN items AS i
+		ON ti.trading_items_item_id = items_id
+		WHERE
+		uc.user_companies_id = #{companyId}
+		and
+		t.trades_deleted = false
+	</select>
+	
+	<insert id="insertContact" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+		contacts 
+		(contacts_name,contacts_client_id,contacts_department,contacts_position,contacts_telephone,contacts_email,contacts_owner_id)
+		values
+		(#{name},#{clientId},#{department},#{position},#{telephone},#{email},#{ownerId})
+	</insert>
+
+	<update id="updateContact">
+		UPDATE
+		contacts
+		SET 
+		contacts_name = #{name},
+		contacts_client_id = #{clientId},
+		contacts_department = #{department},
+		contacts_position = #{position},
+		contacts_telephone =	#{telephone},
+		contacts_email = #{email},
+		contacts_owner_id = #{ownerId},
+		contacts_deleted = #{deleted}
+		WHERE
+		contacts_id = #{id}
+	</update>
+</mapper>

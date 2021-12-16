@@ -4,11 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.dao.ItemDao">
 	<resultMap id="itemMap" type="com.example.entity.Item">
-		<id     column="item_id" 			property="id"/>
-		<result column="item_name" 			property="name"/>
-		<result column="item_price" 		property="price"/>
-		<result column="item_description" 	property="description"/>
-		<result column="item_deleted" 		property="deleted"/>
+		<id     column="items_id" 			property="id"/>
+		<result column="items_name" 			property="name"/>
+		<result column="items_price" 		property="price"/>
+		<result column="items_description" 	property="description"/>
+		<result column="items_deleted" 		property="deleted"/>
 		<result column="user_id" 			property="ownerId"/>
 		<association property="createdBy" resultMap="userMap" />
 	</resultMap>
@@ -20,43 +20,43 @@
 	
 	<select id="findById" resultMap="itemMap">
 		SELECT
-		i.item_id,
-		i.item_name,
-		i.item_price,
-		i.item_description,
-		i.item_deleted,
-		i.item_owner_id AS user_id,
+		i.items_id,
+		i.items_name,
+		i.items_price,
+		i.items_description,
+		i.items_deleted,
+		i.items_owner_id AS user_id,
 		u.name AS user_name 
 		FROM
 		items AS i  
 		LEFT JOIN users AS u
-		ON i.item_owner_id = u.id
+		ON i.items_owner_id = u.id
 		LEFT JOIN user_departments AS ud
 		ON u.user_department_id = ud.user_departments_id
 		LEFT JOIN user_companies AS uc 
 		ON ud.user_company_id = uc.user_companies_id
 		WHERE
-		i.item_id= #{id}
+		i.items_id= #{id}
 		and
 		uc.user_companies_id = #{companyId}
 		and
-		i.item_deleted = false
+		i.items_deleted = false
 		
 		
 	</select>
 	<select id="findByCompanyId" resultMap="itemMap">
 		SELECT
-		i.item_id,
-		i.item_name,
-		i.item_price,
-		i.item_description,
-		i.item_deleted,
-		i.item_owner_id AS user_id,
+		i.items_id,
+		i.items_name,
+		i.items_price,
+		i.items_description,
+		i.items_deleted,
+		i.items_owner_id AS user_id,
 		u.name AS user_name 
 		FROM
 		items AS i  
 		LEFT JOIN users AS u
-		ON i.item_owner_id = u.id
+		ON i.items_owner_id = u.id
 		LEFT JOIN user_departments AS ud
 		ON u.user_department_id = ud.user_departments_id
 		LEFT JOIN user_companies AS uc 
@@ -64,14 +64,14 @@
 		WHERE
 		uc.user_companies_id = #{companyId}
 		and
-		i.item_deleted = false
+		i.items_deleted = false
 				
 	</select>
 
 	<insert id="insertItem" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO 
 		items 
-		(item_name,item_price,item_description,item_owner_id)
+		(items_name,items_price,items_description,items_owner_id)
 		values
 		(#{name},#{price},#{description},#{ownerId})
 	</insert>
@@ -80,13 +80,13 @@
 		UPDATE
 		items 
 		SET 
-		item_name = #{name},
-		item_price = #{price},
-		item_description = #{description},
-		item_deleted = #{deleted},
-		item_owner_id = #{ownerId} 
+		items_name = #{name},
+		items_price = #{price},
+		items_description = #{description},
+		items_deleted = #{deleted},
+		items_owner_id = #{ownerId} 
 		WHERE
-		item_id = #{id}
+		items_id = #{id}
 	</update>
 
 </mapper>

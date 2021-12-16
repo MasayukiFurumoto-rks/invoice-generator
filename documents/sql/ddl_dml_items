@@ -1,14 +1,14 @@
 DROP TABLE IF EXISTS items;
 CREATE TABLE items(
-item_id serial NOT NULL,
-item_name text NOT NULL,
-item_price int NOT NULL,
-item_description text NOT NULL,
-item_deleted boolean NOT NULL default false ,
-item_owner_id BIGINT UNSIGNED NOT NULL,
-FOREIGN KEY (item_owner_id) REFERENCES users(id),
-CONSTRAINT  items_pkey PRIMARY KEY (item_id)
+items_id serial NOT NULL,
+items_name text NOT NULL,
+items_price int NOT NULL,
+items_description text NOT NULL,
+items_deleted boolean NOT NULL default false ,
+items_owner_id BIGINT UNSIGNED NOT NULL,
+FOREIGN KEY (items_owner_id) REFERENCES users(id),
+CONSTRAINT  items_pkey PRIMARY KEY (items_id)
 );
 
-INSERT INTO items(item_name,item_price,item_description ,item_owner_id) VALUES ('楽楽精算1ヶ月プラン',100000,'楽楽精算1ヶ月の料金',1);
-INSERT INTO items(item_name,item_price,item_description ,item_owner_id) VALUES ('楽楽精算1年プラン',1000000,'楽楽精算1年の料金。単月プランよりお得。',1);
+INSERT INTO items(items_name,items_price,items_description ,items_owner_id) VALUES ('楽楽精算1ヶ月プラン',100000,'楽楽精算1ヶ月の料金',1);
+INSERT INTO items(items_name,items_price,items_description ,items_owner_id) VALUES ('楽楽精算1年プラン',1000000,'楽楽精算1年の料金。単月プランよりお得。',1);
