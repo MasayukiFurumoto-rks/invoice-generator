@@ -1,8 +1,8 @@
 package com.example.form;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import lombok.Data;
@@ -19,7 +19,7 @@ public class ContactInsertForm {
 	private String name;
 
 	/** 取引先ID */
-	@NotNull(message = "取引先は必ず指定してください。")
+	@Min(value=1,message = "取引先は必ず指定してください。")
 	private Integer clientId;
 
 	/** 所属部署 */

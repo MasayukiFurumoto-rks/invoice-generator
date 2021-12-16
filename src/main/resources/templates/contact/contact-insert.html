@@ -42,84 +42,65 @@
               <th style="width:80%;">入力欄</th>
               </tr>
               
-               <tr>
-                <th class="align-middle"><label for="contactName">取引先担当者名</label></th>
+              <tr>
+                <th class="align-middle">取引先名</th>
+                 <td>
+                	<div th:errors="*{clientId}" class="text-danger"></div>
+					<select th:field="*{clientId}" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option hidden  value=0>選択してください</option>
+						<option th:each="client:${clientList}" th:value="${client.id}" th:text="${client.name}"></option>
+              		</select>
+                </td>
+              </tr>
+              
+              
+              
+              <tr>
+                <th class="align-middle"><label for="name">取引先担当者名</label></th>
                 <td class="align-middle">
                 	<div th:errors="*{name}" class="text-danger"></div>
 	                    <input type="text"
-	                    id="contactName"
-	                    name="name"
 	                    class="form-control form-control-sm"
 	                    th:field="*{name}">
                 </td>
                
               </tr>
               <tr>
-                <th class="align-middle">郵便番号</th>
-               <td class="align-middle">
-                	<div th:errors="*{zipcode}" class="text-danger"></div>
-	                <div class="d-flex row">
-	                    <div class="col-md-10">
-		                    <input type="text"
-		                    id="zipcode"
-		                    name="zipcode"
-		                    class="form-control form-control-sm"
-		                    th:field="*{zipcode}">
-                  		</div>
-                  		<div class="col-md-2">
-                    	<button type="button" id="getAddress" class="btn btn-sm btn-secondary">住所検索</button>
-                    	</div>
-                    </div>
-				  </td>
-              </tr>
-              <tr>
-                <th class="align-middle">住所</th>
-				<td class="align-middle">
-                	<div th:errors="*{address}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="address"
-	                    name="address"
-	                    class="form-control form-control-sm"
-	                    th:field="*{address}">
-                    
-               </td>
-              </tr>
-              <tr>
-                <th class="align-middle">建物</th>
-				<td class="align-middle">
-                	<div th:errors="*{building}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="building"
-	                    name="building"
-	                    class="form-control form-control-sm"
-	                    th:field="*{building}">
-                </td>
-                
-                
-              </tr>
-              <tr>
-                <th class="align-middle">電話番号</th>
+                <th class="align-middle"><label for="department">所属部署</label></th>
                 <td class="align-middle">
-					<div th:errors="*{telephone}" class="text-danger"></div>
+                	<div th:errors="*{department}" class="text-danger"></div>
 	                    <input type="text"
-	                    id="telephone"
-	                    name="telephone"
 	                    class="form-control form-control-sm"
-	                    th:field="*{telephone}">
-                 </td>
+	                    th:field="*{department}">
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle"><label for="position">役職</label></th>
+                <td class="align-middle">
+                	<div th:errors="*{position}" class="text-danger"></div>
+	                    <input type="text"
+	                    class="form-control form-control-sm"
+	                    th:field="*{position}">
+                </td>
               </tr>
               
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle"><label for="telephone">電話番号</label></th>
                 <td class="align-middle">
-                  <div th:errors="*{creditLimit}" class="text-danger"></div>
+                	<div th:errors="*{telephone}" class="text-danger"></div>
 	                    <input type="text"
-	                    id="creditLimit"
-	                    name="creditLimit"
 	                    class="form-control form-control-sm"
-	                    th:field="*{creditLimit}">
+	                    th:field="*{telephone}">
                 </td>
-                
+              </tr>
+              <tr>
+                <th class="align-middle"><label for="email">メールアドレス</label></th>
+                <td class="align-middle">
+                	<div th:errors="*{email}" class="text-danger"></div>
+	                    <input type="text"
+	                    class="form-control form-control-sm"
+	                    th:field="*{email}">
+                </td>
               </tr>
               
               <tr>
@@ -139,18 +120,6 @@
                 </td>
               </tr>
             
-              <tr>
-                <th class="align-middle">備考</th>
-                <td class="align-middle">
-               	  <div th:errors="*{remarks}" class="text-danger"></div>
-	               <textarea 
-                   id="contactRemarks" 
-                   name="remarks"
-                   class="form-control form-control-sm"
-                   th:field="*{remarks}">
-                   </textarea>
-	               </td>
-              </tr>
           </table>
           <div>
 	          <button

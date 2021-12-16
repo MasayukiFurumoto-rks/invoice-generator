@@ -89,10 +89,10 @@
 	
 	<insert id="insertContact" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO 
-		clients 
-		(clients_name,clients_zipcode,clients_address,clients_building,clients_telephone,clients_credit_limit,clients_owner_id,clients_remarks)
+		contacts 
+		(contacts_name,contacts_client_id,contacts_department,contacts_position,contacts_telephone,contacts_email,contacts_owner_id)
 		values
-		(#{name},#{zipcode},#{address},#{building},#{telephone},#{creditLimit},#{ownerId},#{remarks})
+		(#{name},#{clientId},#{department},#{position},#{telephone},#{email},#{ownerId})
 	</insert>
 
 	<update id="updateContact">

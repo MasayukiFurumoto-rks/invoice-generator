@@ -44,19 +44,35 @@
 	              <th style="width:30%;"></th>
 	              <th style="width:70%;">詳細</th>
               </tr>
-              
+               <tr>
+                <th class="align-middle">取引先</th>
+                <td class="align-middle">
+                    <a th:href="@{/client/showDetail?id=}+${insertingContact.belongs.id}">
+                 		 <span th:text="${insertingContact.belongs.name}">ポート株式会社</span>
+                	</a>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">取引先担当者ID</th>
+                <td class="align-middle"><span th:text="${insertingContact.id}">xx</span></td>
+              </tr>
               <tr>
                 <th class="align-middle">取引先担当者名</th>
                 <td class="align-middle">
                     <span th:text="${insertingContact.name}">楽楽精算</span>
                 </td>
               </tr>
+              
               <tr>
-                <th class="align-middle">所在地</th>
+                <th class="align-middle">所属部署</th>
                 <td class="align-middle">
-                    〒<span th:text="${insertingContact.zipcode}">191-0022</span><br>
-                    <span th:text="${insertingContact.address}">東京都新宿区西新宿1-1-1</span>
-                    <span th:text="${insertingContact.building}">住友不動産新宿グランドタワー</span>
+               		 <span th:text="${insertingContact.department}">就職支援事業部</span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">役職</th>
+                <td class="align-middle">
+               		 <span th:text="${insertingContact.position}">部長</span>
                 </td>
               </tr>
               <tr>
@@ -66,12 +82,9 @@
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">メールアドレス</th>
                 <td class="align-middle">
-                  <span
-                    th:text="${#numbers.formatInteger(insertingContact.creditLimit,1,'COMMA')}+円"
-                    >300,000,000円</span
-                  >
+                   <span th:text="${insertingContact.email}">rakuraku@email.com</span><br>
                 </td>
               </tr>
               
@@ -83,18 +96,6 @@
                     th:href="@{/user/showDetail?id=}+${insertingContact.owner.id}"
                     ><span th:text="${insertingContact.owner.name}">古本昌幸</span>
                   </a>
-                </td>
-              </tr>
-            
-              <tr>
-                <th class="align-middle">備考</th>
-                <td class="align-middle">
-	                   <th:block th:if="${insertingContact.remarks}">
-					    <th:block th:each="str, stat : ${insertingContact.remarks.split('\r\n|\r|\n', -1)}">
-					        <th:block th:text="${str}"/>
-					        <br th:if="${!stat.last}"/>
-					    </th:block>
-					</th:block>
                 </td>
               </tr>
           </table>

@@ -13,10 +13,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.entity.Client;
 import com.example.entity.Contact;
 import com.example.entity.User;
 import com.example.form.ContactEditForm;
 import com.example.form.ContactInsertForm;
+import com.example.service.ClientService;
 import com.example.service.ContactService;
 import com.example.service.UserService;
 
@@ -31,7 +33,12 @@ public class ContactController {
 	private UserService userService;
 
 	@Autowired
+	private ClientService clientService;
+	
+	@Autowired
 	private ContactService contactService;
+	
+	
 
 	@ModelAttribute
 	private ContactEditForm setUpContactEditForm() {
@@ -159,6 +166,10 @@ public class ContactController {
 		User signInUser = (User) session.getAttribute("user");
 		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
 
+		// 企業担当者の企業を決めるときに、その企業の取引先から人を選ぶために
+		List<Client> clientList = clientService.findByCompanyId(comIdOfUser);
+		model.addAttribute("clientList", clientList);
+		
 		// 所有者を決めるときに、同じ企業の人を選ぶために
 		List<User> userList = userService.findByCompanyId(comIdOfUser);
 		model.addAttribute("userList", userList);
@@ -173,10 +184,14 @@ public class ContactController {
 			return insert(model);
 		}
 		
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+		
 		Contact insertingContact = new Contact();
 		BeanUtils.copyProperties(form, insertingContact);
 		insertingContact.setOwner(userService.findById(form.getOwnerId()));
-
+		insertingContact.setBelongs(clientService.findById(form.getClientId(),comIdOfUser));
+		
 		System.out.println("insertingContact:" + insertingContact);
 
 		model.addAttribute("insertingContact", insertingContact);
