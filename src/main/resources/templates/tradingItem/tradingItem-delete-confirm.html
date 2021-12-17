@@ -15,11 +15,11 @@
     
     
     <div class="container">
-<ol class="breadcrumb">
+	<ol class="breadcrumb">
 	  	<li class="breadcrumb-item "><a href="home.html" th:href="@{/home}">HOME</a></li>
 		<li class="breadcrumb-item"><a href="trade-list.html" th:href="@{/trade/showList}">商談一覧</a></li>
-		<li class="breadcrumb-item"><a href="trade-detail.html" th:href="@{/trade/showDetail?id=}+${trade.id}">商談詳細</a></li>
-		<li class="breadcrumb-item"><a href="trade-edit.html" th:href="@{/trade/edit?id=}+${trade.id}">商談編集</a></li>
+		<li class="breadcrumb-item"><a href="trade-detail.html" th:href="@{/trade/showDetail?id=}+${tradingItem.tradeId}">商談詳細</a></li>
+		<li class="breadcrumb-item"><a href="tradingItem-edit.html" th:href="@{/tradingItem/edit?id=}+${tradingItem.id}">商談商品編集</a></li>
 		<li class="breadcrumb-item active">商談削除確認</li>
 	</ol>
       <!-- table -->
@@ -44,82 +44,52 @@
               </tr>
               
               <tr>
-                <th class="align-middle">商談ID</th>
-                <td class="align-middle"><span th:text="${trade.id}">xx</span></td>
-              </tr>
-              <tr>
-                <th class="align-middle">商談名</th>
+                <th class="align-middle">商品</th>
                 <td class="align-middle">
-                    <span th:text="${trade.name}">楽楽精算</span>
-                </td>
-              </tr>
-              <tr>
-                <th class="align-middle">所在地</th>
-                <td class="align-middle">
-                    〒<span th:text="${trade.zipcode}">191-0022</span><br>
-                    <span th:text="${trade.address}">東京都新宿区西新宿1-1-1</span>
-                    <span th:text="${trade.building}">住友不動産新宿グランドタワー</span>
-                </td>
-              </tr>
-              <tr>
-                <th class="align-middle">電話番号</th>
-                <td class="align-middle">
-                    <span th:text="${trade.telephone}">090-0000-0000</span><br>
-                </td>
-              </tr>
-              <tr>
-                <th class="align-middle">与信限度額</th>
-                <td class="align-middle">
-                  <span
-                    th:text="${#numbers.formatInteger(trade.creditLimit,1,'COMMA')}+円"
-                    >300,000,000円</span
-                  >
+                    	<span th:text="${tradingItem.item.name}">楽楽精算</span>
                 </td>
               </tr>
               
+              
               <tr>
-                <th class="align-middle">商談所有者</th>
-                <td class="align-middle">
-                  <a
-                    href="user-detail.html"
-                    th:href="@{/user/showDetail?id=}+${trade.owner.id}"
-                    ><span th:text="${trade.owner.name}">古本昌幸</span>
-                  </a>
-                </td>
+                <th class="align-middle">単価</th>
+                <td class="align-middle" th:text="${#numbers.formatInteger(tradingItem.item.price,1,'COMMA')}+円"></td>
+                <td></td>
               </tr>
-            
+              
+              <tr>
+                <th class="align-middle">数量</th>
+                 <td class="align-middle">
+                   	<span th:text="${tradingItem.quantity}">2</span>
+                 </td>
+              </tr>
               <tr>
                 <th class="align-middle">備考</th>
                 <td class="align-middle">
-	                   <th:block th:if="${trade.remarks}">
-					    <th:block th:each="str, stat : ${trade.remarks.split('\r\n|\r|\n', -1)}">
+	                   <th:block th:if="${tradingItem.remarks}">
+					    <th:block th:each="str, stat : ${tradingItem.remarks.split('\r\n|\r|\n', -1)}">
 					        <th:block th:text="${str}"/>
 					        <br th:if="${!stat.last}"/>
 					    </th:block>
 					</th:block>
                 </td>
               </tr>
+              <tr>
+                <th class="align-middle">小計金額</th>
+                <td class="align-middle">
+                  <span
+                    th:text="${#numbers.formatInteger(tradingItem.subTotal,1,'COMMA')}+円"
+                    >300,000,000円</span
+                  >
+                </td>
+              </tr>
           </table>
-          <br>
-          <h4>この企業との取引一覧</h4>
-          <div th:if="${untradeMessage}">
-          	<span th:text="${untradeMessage}">この企業との取引はまだありません。</span>
-          </div>
-          <div th:unless="${untradeMessage}">
-	          <table class="table table-striped">
-	              <tr th:each="trade:${trade.tradeList}">
-		              <th></th>
-		              <td></td>
-	              </tr>
-
-          </table>
-          <br>
           <div class="text-center">この商談を削除します。よろしいですか？</div>
           <br>	
           
           <div>
-          <form method="post" th:action="@{/trade/delete/finish}">
-          <input type="hidden" name="id" th:value="${trade.id}">
+          <form method="post" th:action="@{/tradingItem/delete/finish}">
+          <input type="hidden" name="id" th:value="${tradingItem.id}">
 	          <button
 	              type="submit"
 	              class="
@@ -144,11 +114,12 @@
 	                col-sm-3
 	              "
 	              href="trade-edit.html"
-	              th:href="@{/trade/edit?id=}+${trade.id}"
+	              th:href="@{/tradingItem/edit?id=}+${tradingItem.id}"
 	            >
 	            削除をやめる
 	            </a>
           </div>
+         </div>
 
         </div>
       </div>

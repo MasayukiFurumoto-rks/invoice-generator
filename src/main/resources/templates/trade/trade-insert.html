@@ -38,104 +38,71 @@
           <form th:action="@{/trade/insert/confirm}" method="post" th:object="${tradeInsertForm}" action="trade-insert-confirm.html">
           <table class="table table-striped text-center">
               <tr>
-              <th style="width:20%;"></th>
-              <th style="width:80%;">入力欄</th>
+	              <th style="width:20%;"></th>
+	              <th style="width:80%;">入力欄</th>
               </tr>
               
-               <tr>
-                <th class="align-middle"><label for="tradeName">商談名</label></th>
-                <td class="align-middle">
-                	<div th:errors="*{name}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="tradeName"
-	                    name="name"
-	                    class="form-control form-control-sm"
-	                    th:field="*{name}">
-                </td>
-               
-              </tr>
               <tr>
-                <th class="align-middle">郵便番号</th>
+               <th class="align-middle"><label for="tradeName">商談名</label></th>
                <td class="align-middle">
-                	<div th:errors="*{zipcode}" class="text-danger"></div>
-	                <div class="d-flex row">
-	                    <div class="col-md-10">
-		                    <input type="text"
-		                    id="zipcode"
-		                    name="zipcode"
-		                    class="form-control form-control-sm"
-		                    th:field="*{zipcode}">
-                  		</div>
-                  		<div class="col-md-2">
-                    	<button type="button" id="getAddress" class="btn btn-sm btn-secondary">住所検索</button>
-                    	</div>
-                    </div>
-				  </td>
-              </tr>
-              <tr>
-                <th class="align-middle">住所</th>
-				<td class="align-middle">
-                	<div th:errors="*{address}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="address"
-	                    name="address"
-	                    class="form-control form-control-sm"
-	                    th:field="*{address}">
-                    
+               	<div th:errors="*{name}" class="text-danger"></div>
+                    <input type="text"
+                    id="tradeName"
+                    name="name"
+                    class="form-control form-control-sm"
+                    th:field="*{name}">
                </td>
               </tr>
+<!--               <tr> -->
+<!--                 <th class="align-middle">取引先</th> -->
+<!--                 <td class="align-middle"> -->
+<!--                    	<span id="companyName">株式会社ラクスパートナーズ</span> -->
+<!--                 </td> -->
+<!--               </tr> -->
               <tr>
-                <th class="align-middle">建物</th>
-				<td class="align-middle">
-                	<div th:errors="*{building}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="building"
-	                    name="building"
-	                    class="form-control form-control-sm"
-	                    th:field="*{building}">
+                <th class="align-middle">取引先担当者</th>
+                <td>
+                 <div th:errors="*{contactId}" class="text-danger"></div>
+					 <select th:field="*{contactId}" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option hidden value=0>選択してください</option>
+						<option th:each="contact:${contactList}" th:value="${contact.id}" th:text="${contact.name}"></option>
+	             	 </select>
                 </td>
-                
-                
               </tr>
               <tr>
-                <th class="align-middle">電話番号</th>
-                <td class="align-middle">
-					<div th:errors="*{telephone}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="telephone"
-	                    name="telephone"
+                <th class="align-middle">商談ステータス</th>
+                <td>
+                 <div th:errors="*{statusKey}" class="text-danger"></div>
+					 <select th:field="*{statusKey}" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option th:each="status:${statusList}" th:value="${status.key}" th:text="${status.key}+.+${status.value}"></option>
+	             	 </select>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">最終更新日</th>
+				 <td class="align-middle">
+                	<div th:errors="*{date}" class="text-danger"></div>
+	                    <input type="date"
+	                    id="date"
+	                    name="date"
 	                    class="form-control form-control-sm"
-	                    th:field="*{telephone}">
+	                    th:field="*{date}">
                  </td>
               </tr>
-              
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">合計金額</th>
                 <td class="align-middle">
-                  <div th:errors="*{creditLimit}" class="text-danger"></div>
-	                    <input type="text"
-	                    id="creditLimit"
-	                    name="creditLimit"
-	                    class="form-control form-control-sm"
-	                    th:field="*{creditLimit}">
+                  <span id="totalPrice"></span>円
                 </td>
-                
               </tr>
               
               <tr>
                 <th class="align-middle">商談所有者</th>
                  <td>
                  <div th:errors="*{ownerId}" class="text-danger"></div>
-		              <div th:if="*{ownerId}!=null">
-						<select th:field="*{ownerId}" class="form-select form-select-sm" aria-label=".form-select-sm">
-							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}"></option>
-	              		</select>
-	                  </div>
-	                  <div th:unless="*{ownerId}!=null">
-		                <select id="ownerId" name="ownerId" class="form-select form-select-sm" aria-label=".form-select-sm">
-							<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}" th:selected="${owner.id} == ${session.user.id}"></option>
-	              		</select>
-	                  </div>
+					<select th:field="*{ownerId}" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option th:each="owner:${userList}" th:value="${owner.id}" th:text="${owner.name}"></option>
+             		</select>
                 </td>
               </tr>
             
@@ -149,7 +116,7 @@
                    class="form-control form-control-sm"
                    th:field="*{remarks}">
                    </textarea>
-	               </td>
+               </td>
               </tr>
           </table>
           <div>

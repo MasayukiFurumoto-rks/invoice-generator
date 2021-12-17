@@ -145,12 +145,12 @@
 		t.trades_deleted = false
 	</select>
 	
-	<insert id="insertContact" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertTrade" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO 
-		contacts 
-		(contacts_name,contacts_client_id,contacts_department,contacts_position,contacts_telephone,contacts_email,contacts_owner_id)
+		trades 
+		(trades_name,trades_trade_status_key,trades_date,trades_contact_id,trades_owner_id,trades_remarks)
 		values
-		(#{name},#{clientId},#{department},#{position},#{telephone},#{email},#{ownerId})
+		(#{name},#{statusKey},#{date},#{contactId},#{ownerId},#{remarks})
 	</insert>
 
 	<update id="updateTrade">

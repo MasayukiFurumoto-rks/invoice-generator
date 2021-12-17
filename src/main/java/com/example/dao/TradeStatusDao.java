@@ -10,5 +10,8 @@ import com.example.entity.TradeStatus;
 public interface TradeStatusDao{
 	// 全件検索
 	List<TradeStatus> findAll();
+	
+	// keyによる1件検索
+	TradeStatus findByKey(Integer key);
 
 }

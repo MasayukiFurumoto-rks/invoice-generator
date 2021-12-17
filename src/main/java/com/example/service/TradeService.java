@@ -41,5 +41,9 @@ public class TradeService {
 	 public List<TradeStatus> getTradeStatusList(){
 		 return this.tradeStatusDao.findAll();
 	 }
+	 
+	 public TradeStatus getTradeStatus(Integer key){
+		 return this.tradeStatusDao.findByKey(key);
+	 }
 }
 

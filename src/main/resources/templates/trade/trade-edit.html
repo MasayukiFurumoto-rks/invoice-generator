@@ -117,7 +117,7 @@
                  <div th:errors="*{statusKey}" class="text-danger"></div>
              	 <div th:if="*{statusKey}!=null">
 					 <select th:field="*{statusKey}" class="form-select form-select-sm" aria-label=".form-select-sm">
-						<option th:each="status:${statusList}" th:value="${status.id}" th:text="${status.key}+.+${status.value}"></option>
+						<option th:each="status:${statusList}" th:value="${status.key}" th:text="${status.key}+.+${status.value}"></option>
 	             	 </select>
                  </div>
                  <div th:unless="*{statusKey}!=null">

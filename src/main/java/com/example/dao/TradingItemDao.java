@@ -18,7 +18,10 @@ public interface TradingItemDao {
 	// ユーザーテーブルにデータを挿入
 	int insertTradingItem(TradingItem tradingItem);
 
-	// ユーザーテーブルにあるアイテムデータを更新
+	// ユーザーテーブルにある商談商品データを更新
 	int updateTradingItem(TradingItem tradingItem);
 
+	// ユーザーテーブルにある商談商品データを削除
+	int deleteTradingItem(TradingItem tradingItem);
+	
 }

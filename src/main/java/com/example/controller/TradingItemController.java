@@ -120,28 +120,30 @@ public class TradingItemController {
 		return "redirect:/trade/showDetail?id=" + form.getTradeId();
 	}
 
-//	@RequestMapping("/delete/confirm")
-//	public String deleteConfirm(Integer id, Model model) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		TradingItem tradingItem = tradingItemService.findById(id, comIdOfUser);
-//		model.addAttribute("tradingItem", tradingItem);
-//		return "tradingItem/tradingItem-delete-confirm.html";
-//
-//	}
-//
-//	@RequestMapping("/delete/finish")
-//	public String deleteFinish(Integer id, Model model) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		TradingItem tradingItem = tradingItemService.findById(id, comIdOfUser);
-//		tradingItem.setDeleted(true);
-//		tradingItemService.updateTradingItem(tradingItem);
-//		return "redirect:/tradingItem/showList";
-//
-//	}
+	@RequestMapping("/delete/confirm")
+	public String deleteConfirm(Integer id, Model model) {
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		TradingItem tradingItem = tradingItemService.findById(id, comIdOfUser);
+		
+		
+		
+		model.addAttribute("tradingItem", tradingItem);
+		return "tradingItem/tradingItem-delete-confirm.html";
+
+	}
+
+	@RequestMapping("/delete/finish")
+	public String deleteFinish(Integer id, Model model) {
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		TradingItem tradingItem = tradingItemService.findById(id, comIdOfUser);
+		tradingItemService.deleteTradingItem(tradingItem);
+		return "redirect:/trade/showDetail?id=" + tradingItem.getTradeId();
+
+	}
 
 	@RequestMapping("/insert")
 	public String insert(Model model,Integer tradeId) {

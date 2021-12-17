@@ -2,6 +2,10 @@ package com.example.entity;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import org.springframework.util.ObjectUtils;
 
 import lombok.Data;
 
@@ -27,8 +31,12 @@ public class Trade {
 
 	public int getCalcTotalPrice() {
 		int totalPrice = 0;
-		for (TradingItem item : tradingItemList) {
-			totalPrice += item.getSubTotal();
+		if(Objects.nonNull(tradingItemList)) {
+			if(tradingItemList.size()!=0) {
+				for (TradingItem item : tradingItemList) {
+					totalPrice += item.getSubTotal();
+				}
+			}
 		}
 
 		return totalPrice;

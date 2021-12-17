@@ -96,4 +96,11 @@
 		WHERE
 		trading_items_id = #{id}
 	</update>
+	
+	<delete id="deleteTradingItem">
+		DELETE FROM 
+		trading_items
+		WHERE
+		trading_items_id = #{id}
+	</delete>
 </mapper>

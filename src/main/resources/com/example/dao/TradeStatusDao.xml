@@ -9,6 +9,16 @@
 		<result column="trade_statuses_value" 		property="value"/>
 	</resultMap>
 	
+	<select id="findByKey" resultMap="tradeStatusMap">
+		SELECT
+		ts.trade_statuses_id,
+		ts.trade_statuses_key,
+		ts.trade_statuses_value
+		FROM
+		trade_statuses AS ts
+		WHERE trade_statuses_key = #{key} 
+	</select>
+	
 	<select id="findAll" resultMap="tradeStatusMap">
 		SELECT
 		ts.trade_statuses_id,

@@ -52,24 +52,35 @@
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">所在地</th>
+                <th class="align-middle">取引先</th>
                 <td class="align-middle">
-                    〒<span th:text="${insertingTrade.zipcode}">191-0022</span><br>
-                    <span th:text="${insertingTrade.address}">東京都新宿区西新宿1-1-1</span>
-                    <span th:text="${insertingTrade.building}">住友不動産新宿グランドタワー</span>
+                   	<span th:text="${insertingTrade.contact.belongs.name}">楽楽精算</span>
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">電話番号</th>
+                <th class="align-middle">取引先担当者</th>
                 <td class="align-middle">
-                    <span th:text="${insertingTrade.telephone}">090-0000-0000</span><br>
+                   	<span th:text="${insertingTrade.contact.name}">赤塩 勇太</span>
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">商談ステータス</th>
+                <td class="align-middle">
+                    <span th:text="${insertingTrade.statusKey}"></span>.
+                    <span th:text="${insertingTrade.statusValue}"></span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">最終更新日</th>
+                <td class="align-middle">
+                    <span th:text="${#dates.format(insertingTrade.date,'yyyy/MM/dd')}">090-0000-0000</span><br>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">合計金額</th>
                 <td class="align-middle">
                   <span
-                    th:text="${#numbers.formatInteger(insertingTrade.creditLimit,1,'COMMA')}+円"
+                    th:text="${#numbers.formatInteger(insertingTrade.calcTotalPrice,1,'COMMA')}+円"
                     >300,000,000円</span
                   >
                 </td>
