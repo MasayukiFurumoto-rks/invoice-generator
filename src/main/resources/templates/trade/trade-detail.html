@@ -132,6 +132,9 @@
           </div>
           <br>
           <h4>商品一覧</h4>
+          <div class="text-end">
+         	 <a type="button" class="btn btn-primary" th:href="@{/tradingItem/insert}">商談商品を追加する</a>
+          </div>
           <div th:if="${untradeMessage}">
           	<span th:text="${untradeMessage}">この商談の商品はまだありません。</span>
           </div>

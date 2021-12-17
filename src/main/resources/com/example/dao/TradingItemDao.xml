@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.TradingItemDao">
+	<resultMap id="tradingItemMap" type="com.example.entity.TradingItem">
+		<id 	column="trading_items_id" 		property="id"/>
+		<result column="trading_items_trade_id"		property="tradeId"	></result>
+		<result column="trading_items_item_id"		property="itemId"	></result>
+		<result column="trading_items_quantity" property="quantity"	></result>
+		<result column="trading_items_remarks" 	property="remarks"	></result>
+		<result column="trading_items_owner_id" 	property="ownerId"	></result>
+		<association resultMap="itemMap"		property="item"></association>
+	</resultMap>
+
+	<resultMap id="itemMap" type="com.example.entity.Item">
+		<id     column="items_id" 			property="id"/>
+		<result column="items_name" 		property="name"/>
+		<result column="items_price" 		property="price"/>
+	</resultMap>
+
+	<resultMap id="userMap" type="com.example.entity.User">
+		<id     column="user_id" 	property="id"/>
+		<result column="user_name" 	property="name"/>
+	</resultMap>
+	
+	
+	<select id="findById" 			resultMap="tradingItemMap">
+		SELECT
+		ti.trading_items_id AS trading_items_id,
+		ti.trading_items_quantity AS trading_items_quantity,
+		ti.trading_items_trade_id AS trading_items_trade_id,
+		ti.trading_items_item_id AS trading_items_item_id,
+		ti.trading_items_remarks AS trading_items_remarks,
+		ti.trading_items_owner_id AS trading_items_owner_id,
+		i.items_id AS items_id,
+		i.items_name AS items_name,
+		i.items_price AS items_price
+		FROM
+		trading_items AS ti
+		LEFT JOIN items AS i
+		ON ti.trading_items_item_id = items_id
+		LEFT JOIN users AS u
+		ON ti.trading_items_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		WHERE
+		ti.trading_items_id = #{id}
+		AND
+		uc.user_companies_id = #{companyId}
+	</select>
+	<select id="findByCompanyId" 	resultMap="tradingItemMap">
+		SELECT
+		ti.trading_items_id AS trading_items_id,
+		ti.trading_items_quantity AS trading_items_quantity,
+		ti.trading_items_trade_id AS trading_items_trade_id,
+		ti.trading_items_item_id AS trading_items_item_id,
+		ti.trading_items_remarks AS trading_items_remarks,
+		ti.trading_items_owner_id AS trading_items_owner_id,
+		i.items_id AS items_id,
+		i.items_name AS items_name,
+		i.items_price AS items_price
+		FROM
+		trading_items AS ti
+		LEFT JOIN items AS i
+		ON ti.trading_items_item_id = items_id
+		LEFT JOIN users AS u
+		ON ti.trading_items_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		WHERE
+		uc.user_companies_id = #{companyId}
+		and
+		t.trades_deleted = false
+	</select>
+	
+	<insert id="insertTradingItem" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+		trading_items 
+		(trading_items_item_id,trading_items_quantity,trading_items_trade_id,trading_items_remarks,trading_items_owner_id)
+		(#{itemId},#{quantity},#{tradeId},#{remarks},#{ownerId})
+	</insert>
+
+	<update id="updateTradingItem">
+		UPDATE
+		trading_items
+		SET 
+		trading_items_item_id = #{itemId},
+		trading_items_quantity = #{quantity},
+		trading_items_remarks = #{remarks}
+		WHERE
+		trading_items_id = #{id}
+	</update>
+</mapper>
