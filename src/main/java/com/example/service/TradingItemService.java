@@ -31,5 +31,6 @@ public class TradingItemService {
 	 public int insertTradingItem(TradingItem tradingItem) {
 		 return this.tradingItemDao.insertTradingItem(tradingItem);
 	 }
+	 
 }
 

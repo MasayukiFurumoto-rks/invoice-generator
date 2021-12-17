@@ -17,7 +17,9 @@ import com.example.entity.Item;
 import com.example.entity.TradingItem;
 import com.example.entity.User;
 import com.example.form.TradingItemEditForm;
+import com.example.form.TradingItemInsertForm;
 import com.example.service.ItemService;
+import com.example.service.TradeService;
 import com.example.service.TradingItemService;
 import com.example.service.UserService;
 
@@ -33,6 +35,9 @@ public class TradingItemController {
 
 	@Autowired
 	private ItemService itemService;
+	
+	@Autowired
+	private TradeService tradeService;
 
 	@Autowired
 	private TradingItemService tradingItemService;
@@ -48,18 +53,18 @@ public class TradingItemController {
 		}
 		return tradingItemEditForm;
 	}
-//	
-//	@ModelAttribute
-//	private TradingItemInsertForm setUpTradingItemInsertForm() {
-//		TradingItemInsertForm tradingItemInsertForm = new TradingItemInsertForm();
-//		if (session.getAttribute("insertingTradingItem") != null) {
-//			TradingItem sessionTradingItem = (TradingItem) session.getAttribute("insertingTradingItem");
-//			BeanUtils.copyProperties(sessionTradingItem, tradingItemInsertForm);
-//			tradingItemInsertForm.setCreditLimit(String.valueOf(sessionTradingItem.getCreditLimit()));
-//			session.removeAttribute("insertingTradingItem");
-//		}
-//		return tradingItemInsertForm;
-//	}
+	
+	@ModelAttribute
+	private TradingItemInsertForm setUpTradingItemInsertForm() {
+		TradingItemInsertForm tradingItemInsertForm = new TradingItemInsertForm();
+		if (session.getAttribute("insertingTradingItem") != null) {
+			TradingItem sessionTradingItem = (TradingItem) session.getAttribute("insertingTradingItem");
+			tradingItemInsertForm.setQuantity(String.valueOf(sessionTradingItem.getQuantity()));
+			BeanUtils.copyProperties(sessionTradingItem, tradingItemInsertForm);
+			session.removeAttribute("insertingTradingItem");
+		}
+		return tradingItemInsertForm;
+	}
 
 	@RequestMapping("/edit")
 	public String edit(Model model, Integer id) {
@@ -114,7 +119,7 @@ public class TradingItemController {
 		}
 		return "redirect:/trade/showDetail?id=" + form.getTradeId();
 	}
-//
+
 //	@RequestMapping("/delete/confirm")
 //	public String deleteConfirm(Integer id, Model model) {
 //		User signInUser = (User) session.getAttribute("user");
@@ -137,53 +142,64 @@ public class TradingItemController {
 //		return "redirect:/tradingItem/showList";
 //
 //	}
-//
-//	@RequestMapping("/insert")
-//	public String insert(Model model) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		// 所有者を決めるときに、同じ企業の人を選ぶために
-//		List<User> userList = userService.findByCompanyId(comIdOfUser);
-//		model.addAttribute("userList", userList);
-//
-//		return "tradingItem/tradingItem-insert.html";
-//
-//	}
-//
-//	@RequestMapping("/insert/confirm")
-//	public String insertConfirm(@Validated TradingItemInsertForm form, BindingResult result, Model model) {
-//		if (result.hasErrors()) {
-//			return insert(model);
-//		}
-//		
-//		TradingItem insertingTradingItem = new TradingItem();
-//		BeanUtils.copyProperties(form, insertingTradingItem);
-//		insertingTradingItem.setOwner(userService.findById(form.getOwnerId()));
-//		insertingTradingItem.setCreditLimit(form.getIntCreditLimit());
-//
-//		System.out.println("insertingTradingItem:" + insertingTradingItem);
-//
-//		model.addAttribute("insertingTradingItem", insertingTradingItem);
-//		session.setAttribute("insertingTradingItem", insertingTradingItem);
-//		return "tradingItem/tradingItem-insert-confirm.html";
-//	}
-//
-//	@RequestMapping("/insert/finish")
-//	public String insertFinish(TradingItemInsertForm form, Model model) {
-//		System.out.println("form:"+form);
-//		TradingItem tradingItem = new TradingItem();
-//		BeanUtils.copyProperties(form, tradingItem);
-//		tradingItem.setCreditLimit(form.getIntCreditLimit());
-//		System.out.println("tradingItem:" + tradingItem);
-//		tradingItemService.insertTradingItem(tradingItem);
-//
-//		if (session.getAttribute("insertingTradingItem") != null) {
-//			session.removeAttribute("insertingTradingItem");
-//		}
-//		
-//		return "redirect:/tradingItem/showDetail?id=" + tradingItem.getId();
-//		
-//	}
-//
+
+	@RequestMapping("/insert")
+	public String insert(Model model,Integer tradeId) {
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		// 同じ企業の人が持っている担当者リストを選ぶために
+		List<Item> itemList = itemService.findByCompanyId(comIdOfUser);
+		model.addAttribute("itemList", itemList);
+		
+		model.addAttribute("tradeId",tradeId);
+		
+		return "tradingItem/tradingItem-insert.html";
+		
+	}
+
+	@RequestMapping("/insert/confirm")
+	public String insertConfirm(@Validated TradingItemInsertForm form, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return insert(model,form.getTradeId());
+		}
+		
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+		
+		TradingItem insertingTradingItem = new TradingItem();
+		BeanUtils.copyProperties(form, insertingTradingItem);
+		insertingTradingItem.setItem(itemService.findById(form.getItemId(), comIdOfUser));
+		insertingTradingItem.setQuantity(form.getIntQuantity());
+
+		System.out.println("insertingTradingItem:" + insertingTradingItem);
+
+		model.addAttribute("insertingTradingItem", insertingTradingItem);
+		session.setAttribute("insertingTradingItem", insertingTradingItem);
+		return "tradingItem/tradingItem-insert-confirm.html";
+	}
+
+	@RequestMapping("/insert/finish")
+	public String insertFinish(TradingItemInsertForm form, Model model) {
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+		
+		System.out.println("form:"+form);
+		TradingItem tradingItem = new TradingItem();
+		BeanUtils.copyProperties(form, tradingItem);
+		tradingItem.setQuantity(form.getIntQuantity());
+		tradingItem.setOwner((tradeService.findById(form.getTradeId(), comIdOfUser)).getOwner());
+		tradingItem.setOwnerId(tradingItem.getOwner().getId());
+		
+		System.out.println("tradingItem:" + tradingItem);
+		tradingItemService.insertTradingItem(tradingItem);
+
+		if (session.getAttribute("insertingTradingItem") != null) {
+			session.removeAttribute("insertingTradingItem");
+		}
+		
+		return "redirect:/trade/showDetail?id=" + form.getTradeId();
+		
+	}
+
 }

@@ -82,6 +82,7 @@
 		INSERT INTO 
 		trading_items 
 		(trading_items_item_id,trading_items_quantity,trading_items_trade_id,trading_items_remarks,trading_items_owner_id)
+		VALUES
 		(#{itemId},#{quantity},#{tradeId},#{remarks},#{ownerId})
 	</insert>
 
