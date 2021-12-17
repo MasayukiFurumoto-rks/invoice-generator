@@ -48,40 +48,10 @@
 	
 	<select id="findById" 			resultMap="tradeMap">
 		SELECT
-		cont.contacts_id,
-		cont.contacts_name,
-		cont.contacts_client_id,
-		cont.contacts_department,
-		cont.contacts_position,
-		cont.contacts_telephone,
-		cont.contacts_email,
-		cont.contacts_owner_id AS user_id,
-		u.name AS user_name,
-		cl.clients_id AS client_id,
-		cl.clients_name AS client_name
-		FROM
-		contacts AS cont 
-		LEFT JOIN clients AS cl 
-		ON cont.contacts_client_id = cl.clients_id		
-		LEFT JOIN users AS u
-		ON cont.contacts_owner_id = u.id
-		LEFT JOIN user_departments AS ud
-		ON u.user_department_id = ud.user_departments_id
-		LEFT JOIN user_companies AS uc 
-		ON ud.user_company_id = uc.user_companies_id
-		WHERE
-		cont.contacts_id= #{id}
-		AND
-		uc.user_companies_id = #{companyId}
-		AND
-		cont.contacts_deleted = false
-	</select>
-	<select id="findByCompanyId" 	resultMap="tradeMap">
-		SELECT
 		t.trades_id,
 		t.trades_name,
 		t.trades_trade_status_key,
-		ts.trades_statuses_value,
+		ts.trade_statuses_value,
 		t.trades_date,
 		t.trades_contact_id AS contact_id,
 		cont.contacts_id,
@@ -104,7 +74,57 @@
 		FROM
 		trades AS t
 		LEFT JOIN trade_statuses AS ts 
-		ON t.trades_trade_status_key = ts.trades_statuses_key		
+		ON t.trades_trade_status_key = ts.trade_statuses_key		
+		LEFT JOIN contacts AS cont 
+		ON t.trades_contact_id = cont.contacts_id		
+		LEFT JOIN clients AS cl 
+		ON cont.contacts_client_id = cl.clients_id		
+		LEFT JOIN users AS u
+		ON t.trades_owner_id = u.id
+		LEFT JOIN user_departments AS ud
+		ON u.user_department_id = ud.user_departments_id
+		LEFT JOIN user_companies AS uc 
+		ON ud.user_company_id = uc.user_companies_id
+		LEFT JOIN trading_items AS ti
+		ON t.trades_id = ti.trading_items_trade_id
+		LEFT JOIN items AS i
+		ON ti.trading_items_item_id = items_id
+		WHERE
+		t.trades_id= #{id}
+		AND
+		uc.user_companies_id = #{companyId}
+		AND
+		t.trades_deleted = false
+	</select>
+	<select id="findByCompanyId" 	resultMap="tradeMap">
+		SELECT
+		t.trades_id,
+		t.trades_name,
+		t.trades_trade_status_key,
+		ts.trade_statuses_value,
+		t.trades_date,
+		t.trades_contact_id AS contact_id,
+		cont.contacts_id,
+		cont.contacts_name,
+		cont.contacts_client_id AS client_id,
+		cl.clients_name AS client_name,
+		t.trades_owner_id AS user_id,
+		u.name AS user_name,
+		t.trades_remarks,
+		t.trades_deleted,
+		t.trades_invoice_id,
+		cl.clients_id AS client_id,
+		cl.clients_name AS client_name,
+		ti.trading_items_id AS trading_items_id,
+		ti.trading_items_quantity AS trading_items_quantity,
+		ti.trading_items_remarks AS trading_items_remarks,
+		i.items_id AS items_id,
+		i.items_name AS items_name,
+		i.items_price AS items_price
+		FROM
+		trades AS t
+		LEFT JOIN trade_statuses AS ts 
+		ON t.trades_trade_status_key = ts.trade_statuses_key		
 		LEFT JOIN contacts AS cont 
 		ON t.trades_contact_id = cont.contacts_id		
 		LEFT JOIN clients AS cl 
@@ -133,19 +153,19 @@
 		(#{name},#{clientId},#{department},#{position},#{telephone},#{email},#{ownerId})
 	</insert>
 
-	<update id="updateContact">
+	<update id="updateTrade">
 		UPDATE
-		contacts
+		trades
 		SET 
-		contacts_name = #{name},
-		contacts_client_id = #{clientId},
-		contacts_department = #{department},
-		contacts_position = #{position},
-		contacts_telephone =	#{telephone},
-		contacts_email = #{email},
-		contacts_owner_id = #{ownerId},
-		contacts_deleted = #{deleted}
+		trades_name = #{name},
+		trades_trade_status_key = #{statusKey},
+		trades_date = #{date},
+		trades_contact_id = #{contactId},
+		trades_owner_id = #{ownerId},
+		trades_remarks = #{remarks},
+		trades_deleted = #{deleted},
+		trades_invoice_id = #{invoiceId}
 		WHERE
-		contacts_id = #{id}
+		trades_id = #{id}
 	</update>
 </mapper>

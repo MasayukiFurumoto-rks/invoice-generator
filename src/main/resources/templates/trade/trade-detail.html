@@ -53,24 +53,39 @@
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">所在地</th>
+                <th class="align-middle">取引先</th>
                 <td class="align-middle">
-                    〒<span th:text="${trade.zipcode}">191-0022</span><br>
-                    <span th:text="${trade.address}">東京都新宿区西新宿1-1-1</span>
-                    <span th:text="${trade.building}">住友不動産新宿グランドタワー</span>
+                    <a th:href="@{/client/showDetail?id=}+${trade.contact.belongs.id}">
+                    	<span th:text="${trade.contact.belongs.name}">楽楽精算</span>
+                    </a>
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">電話番号</th>
+                <th class="align-middle">取引先担当者</th>
                 <td class="align-middle">
-                    <span th:text="${trade.telephone}">090-0000-0000</span><br>
+                    <a th:href="@{/contact/showDetail?id=}+${trade.contact.id}">
+                    	<span th:text="${trade.contact.name}">赤塩 勇太</span>
+                    </a>
                 </td>
               </tr>
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">商談ステータス</th>
+                <td class="align-middle">
+                    <span th:text="${trade.statusKey}"></span>.
+                    <span th:text="${trade.statusValue}"></span>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">最終更新日</th>
+                <td class="align-middle">
+                    <span th:text="${#dates.format(trade.date,'yyyy/MM/dd')}">090-0000-0000</span><br>
+                </td>
+              </tr>
+              <tr>
+                <th class="align-middle">合計金額</th>
                 <td class="align-middle">
                   <span
-                    th:text="${#numbers.formatInteger(trade.creditLimit,1,'COMMA')}+円"
+                    th:text="${#numbers.formatInteger(trade.calcTotalPrice,1,'COMMA')}+円"
                     >300,000,000円</span
                   >
                 </td>
@@ -99,20 +114,6 @@
                 </td>
               </tr>
           </table>
-          <br>
-          <h4>この企業との取引一覧</h4>
-          <div th:if="${untradeMessage}">
-          	<span th:text="${untradeMessage}">この企業との取引はまだありません。</span>
-          </div>
-          <div th:unless="${untradeMessage}">
-	          <table class="table table-striped">
-	              <tr th:each="trade:${trade.tradeList}">
-		              <th></th>
-		              <td></td>
-	              </tr>
-	          </table>
-          </div>
-	
           <div>
 	          <a
 	              type="button"
@@ -129,6 +130,57 @@
 	             この商談を編集/削除する
 	            </a>
           </div>
+          <br>
+          <h4>商品一覧</h4>
+          <div th:if="${untradeMessage}">
+          	<span th:text="${untradeMessage}">この商談の商品はまだありません。</span>
+          </div>
+          <div th:unless="${untradeMessage}">
+	          <table class="table table-striped">
+	              <tr>
+		              <th>商品名</th>
+		              <th>単価</th>
+		              <th>数量</th>
+		              <th>小計</th>
+		              <th>備考</th>
+		              <th></th>
+	              </tr>
+	              <tr th:each="tradingItem:${trade.tradingItemList}">
+		              <td class="align-middle"><a th:href="@{/item/showDetail?id=}+${tradingItem.item.id}" ><span th:text="${tradingItem.item.name}"></span></a></td>
+		              <td class="align-middle" th:text="${#numbers.formatInteger(tradingItem.item.price,1,'COMMA')}+円"></td>
+		              <td class="align-middle" th:text="${tradingItem.quantity}"></td>
+		              <td class="align-middle" th:text="${#numbers.formatInteger(tradingItem.subTotal,1,'COMMA')}+円"></td>
+		              <td class="align-middle" th:text="${tradingItem.remarks}"></td>
+		              <td class="align-middle">
+		                <a
+		                    type="button"
+		                    class="btn btn-primary btn-sm"
+		                    href="tradingItem-edit.html"
+		                    th:href="@{/tradingItem/edit?id=}+${tradingItem.id}"
+		                    >編集/削除
+		                </a>
+		              </td>
+	              </tr>
+	          </table>
+          </div>
+          <div>
+	          <a
+	              type="button"
+	              class="
+	                btn btn-primary
+	                 offset-lg-4
+	                col-lg-4
+	                offset-sm-3
+	                col-sm-6
+	              "
+	              href="trade-edit.html"
+	              th:href="@{/trade/edit?id=}+${trade.id}"
+	            >
+	             この商談を編集/削除する
+	            </a>
+          </div>
+	
+  
 
           <!-- ここから下を編集する必要はありません -->
         </div>

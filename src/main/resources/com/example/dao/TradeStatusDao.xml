@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.TradeStatusDao">
+	<resultMap id="tradeStatusMap" type="com.example.entity.TradeStatus">
+		<id     column="trade_statuses_id" 			property="id"/>
+		<result column="trade_statuses_key" 		property="key"/>
+		<result column="trade_statuses_value" 		property="value"/>
+	</resultMap>
+	
+	<select id="findAll" resultMap="tradeStatusMap">
+		SELECT
+		ts.trade_statuses_id,
+		ts.trade_statuses_key,
+		ts.trade_statuses_value
+		FROM
+		trade_statuses AS ts
+		ORDER BY trade_statuses_key ASC
+	</select>
+
+</mapper>

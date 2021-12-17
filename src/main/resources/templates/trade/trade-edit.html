@@ -78,141 +78,90 @@
                
               </tr>
               <tr>
-                <th class="align-middle">郵便番号</th>
+                <th class="align-middle">取引先</th>
                 <td class="align-middle">
-                    〒<span th:text="${trade.zipcode}">191-0022</span><br>
-                    
+                    <a th:href="@{/client/showDetail?id=}+${trade.contact.belongs.id}">
+                    	<span th:text="${trade.contact.belongs.name}">株式会社ラクスパートナーズ</span>
+                    </a>
                 </td>
-               <td class="align-middle">
-                	<div th:errors="*{zipcode}" class="text-danger"></div>
-                    <div th:if="*{zipcode}!=null">
-	                    <input type="text"
-	                    id="zipcode"
-	                    name="zipcode"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.zipcode}"
-	                    th:field="*{zipcode}">
-                    </div>
-                    <div th:unless="*{zipcode}!=null">
-	                    <input type="text"
-	                    id="zipcode"
-	                    name="zipcode"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.zipcode}"
-	                    >
-                    </div>
-                    <button type="button" id="getAddress" class="btn btn-sm btn-secondary">住所検索</button>
-				  </td>
+                <td></td>
               </tr>
               <tr>
-                <th class="align-middle">住所</th>
-                <td class="align-middle">
-                    <span th:text="${trade.address}">東京都新宿区西新宿1-1-1</span>
-                    
+                <th class="align-middle">取引先担当者</th>
+                 <td class="align-middle">
+                    <a th:href="@{/contact/showDetail?id=}+${trade.contact.id}">
+                    	<span th:text="${trade.contact.name}">西上原 聡</span>
+                    </a>
                 </td>
-				<td class="align-middle">
-                	<div th:errors="*{address}" class="text-danger"></div>
-                    <span th:if="*{address}!=null">
-	                    <input type="text"
-	                    id="address"
-	                    name="address"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.address}"
-	                    th:field="*{address}">
-                    </span>
-                    <span th:unless="*{address}!=null">
-	                    <input type="text"
-	                    id="address"
-	                    name="address"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.address}"
-	                    >
-                    </span>
-                    
-               </td>
+                <td>
+                 <div th:errors="*{contactId}" class="text-danger"></div>
+             	 <div th:if="*{contactId}!=null">
+					 <select th:field="*{contactId}" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option th:each="contact:${contactList}" th:value="${contact.id}" th:text="${contact.name}"></option>
+	             	 </select>
+                 </div>
+                 <div th:unless="*{contactId}!=null">
+                	<select id="contactId" name="contactId" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option th:each="contact:${contactList}" th:value="${contact.id}" th:text="${contact.name}" th:selected="${contact.id} == ${trade.contact.id}"></option>
+             		</select>
+                 </div>
+                </td>
               </tr>
               <tr>
-                <th class="align-middle">建物</th>
+                <th class="align-middle">商談ステータス</th>
                 <td class="align-middle">
-                    <span th:text="${trade.building}">住友不動産新宿グランドタワー</span>
-                    
+                    <span th:text="${trade.statusKey}"></span>.
+                    <span th:text="${trade.statusValue}"></span>
                 </td>
-				<td class="align-middle">
-                	<div th:errors="*{building}" class="text-danger"></div>
-                    <span th:if="*{building}!=null">
-	                    <input type="text"
-	                    id="building"
-	                    name="building"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.building}"
-	                    th:field="*{building}">
-                    </span>
-                    <span th:unless="*{building}!=null">
-	                    <input type="text"
-	                    id="building"
-	                    name="building"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.building}"
-	                    >
-                    </span>
+                <td>
+                 <div th:errors="*{statusKey}" class="text-danger"></div>
+             	 <div th:if="*{statusKey}!=null">
+					 <select th:field="*{statusKey}" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option th:each="status:${statusList}" th:value="${status.id}" th:text="${status.key}+.+${status.value}"></option>
+	             	 </select>
+                 </div>
+                 <div th:unless="*{statusKey}!=null">
+                	<select id="statusKey" name="statusKey" class="form-select form-select-sm" aria-label=".form-select-sm">
+						<option th:each="status:${statusList}" th:value="${status.key}" th:text="${status.key}+.+${status.value}" th:selected="${status.key} == ${trade.statusKey}"></option>
+             		</select>
+                 </div>
                 </td>
-                
-                
               </tr>
               <tr>
-                <th class="align-middle">電話番号</th>
-                <td class="align-middle">
-                    <span th:text="${trade.telephone}">090-0000-0000</span><br>
-                </td>
-                <td class="align-middle">
-					<div th:errors="*{telephone}" class="text-danger"></div>
-                    <span th:if="*{telephone}!=null">
-	                    <input type="text"
-	                    id="telephone"
-	                    name="telephone"
+                <th class="align-middle">最終更新日</th>
+                 <td class="align-middle">
+                    <span th:text="${#dates.format(trade.date,'yyyy/MM/dd')}">2021/12/16</span><br>
+                 </td>
+				 <td class="align-middle">
+                	<div th:errors="*{date}" class="text-danger"></div>
+                    <span th:if="*{date}!=null">
+	                    <input type="date"
+	                    id="date"
+	                    name="date"
 	                    class="form-control form-control-sm"
-	                    th:value="${trade.telephone}"
-	                    th:field="*{telephone}">
+	                    th:value="${trade.date}"
+	                    th:field="*{date}">
                     </span>
-                    <span th:unless="*{telephone}!=null">
-	                    <input type="text"
-	                    id="telephone"
-	                    name="telephone"
+                    <span th:unless="*{date}!=null">
+	                    <input type="date"
+	                    id="date"
+	                    name="date"
 	                    class="form-control form-control-sm"
-	                    th:value="${trade.telephone}"
+	                    th:value="${trade.date}"
 	                    >
                     </span>
                  </td>
               </tr>
-              
               <tr>
-                <th class="align-middle">与信限度額</th>
+                <th class="align-middle">合計金額</th>
                 <td class="align-middle">
                   <span
-                    th:text="${#numbers.formatInteger(trade.creditLimit,1,'COMMA')}+円"
+                    th:text="${#numbers.formatInteger(trade.calcTotalPrice,1,'COMMA')}+円"
                     >300,000,000円</span
                   >
                 </td>
-                <td class="align-middle">
-                  <div th:errors="*{creditLimit}" class="text-danger"></div>
-                    <span th:if="*{creditLimit}!=null">
-	                    <input type="text"
-	                    id="creditLimit"
-	                    name="creditLimit"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.creditLimit}"
-	                    th:field="*{creditLimit}">
-                    </span>
-                    <span th:unless="*{creditLimit}!=null">
-	                    <input type="text"
-	                    id="creditLimit"
-	                    name="creditLimit"
-	                    class="form-control form-control-sm"
-	                    th:value="${trade.creditLimit}"
-	                    >
-                    </span>
+				<td>              
                 </td>
-                
               </tr>
               
               <tr>

@@ -4,13 +4,21 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.entity.Contact;
 import com.example.entity.Trade;
+import com.example.entity.TradeStatus;
 import com.example.entity.User;
+import com.example.form.TradeEditForm;
+import com.example.service.ContactService;
 import com.example.service.TradeService;
 import com.example.service.UserService;
 
@@ -25,19 +33,22 @@ public class TradeController {
 	private UserService userService;
 
 	@Autowired
+	private ContactService contactService;
+
+	@Autowired
 	private TradeService tradeService;
 
-//	@ModelAttribute
-//	private TradeEditForm setUpTradeEditForm() {
-//		TradeEditForm tradeEditForm = new TradeEditForm();
-//		if (session.getAttribute("editingTrade") != null) {
-//			Trade sessionTrade = (Trade) session.getAttribute("editingTrade");
-//			BeanUtils.copyProperties(sessionTrade, tradeEditForm);
-//			tradeEditForm.setCreditLimit(String.valueOf(sessionTrade.getCreditLimit()));
-//			session.removeAttribute("editingTrade");
-//		}
-//		return tradeEditForm;
-//	}
+	@ModelAttribute
+	private TradeEditForm setUpTradeEditForm() {
+		TradeEditForm tradeEditForm = new TradeEditForm();
+		if (session.getAttribute("editingTrade") != null) {
+			Trade sessionTrade = (Trade) session.getAttribute("editingTrade");
+			BeanUtils.copyProperties(sessionTrade, tradeEditForm);
+			tradeEditForm.setDate(String.valueOf(sessionTrade.getDate()));
+			session.removeAttribute("editingTrade");
+		}
+		return tradeEditForm;
+	}
 //	
 //	@ModelAttribute
 //	private TradeInsertForm setUpTradeInsertForm() {
@@ -62,67 +73,78 @@ public class TradeController {
 		return "trade/trade-list.html";
 	}
 
-//	@RequestMapping("/showDetail")
-//	public String showDetail(Model model, Integer id) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		Trade trade = tradeService.findById(id, comIdOfUser);
-//	
-//		model.addAttribute("trade", trade);
-//		return "trade/trade-detail.html";
-//	}
-//
-//	@RequestMapping("/edit")
-//	public String edit(Model model, Integer id) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		// 編集しようとしている商品の情報を一緒に表示するためにロード
-//		Trade trade = tradeService.findById(id, comIdOfUser);
-//		model.addAttribute("trade", trade);
-//
-//		// 同じ企業の人を選ぶために
-//		List<User> userList = userService.findByCompanyId(comIdOfUser);
-//		model.addAttribute("userList", userList);
-//
-//		return "trade/trade-edit.html";
-//	}
-//
-//	@RequestMapping("/edit/confirm")
-//	public String editConfirm(@Validated TradeEditForm form, BindingResult result, Model model) {
-//		if (result.hasErrors()) {
-//			return edit(model, form.getId());
-//		}
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		Trade trade = tradeService.findById(form.getId(), comIdOfUser);
-//		
-//		Trade editedTrade = tradeService.findById(form.getId(), comIdOfUser);
-//		BeanUtils.copyProperties(form, editedTrade);
-//		editedTrade.setOwner(userService.findById(form.getOwnerId()));
-//		
-//
-//		System.out.println("editedTrade:" + editedTrade);
-//
-//		model.addAttribute("trade", trade);
-//		model.addAttribute("editedTrade", editedTrade);
-//		session.setAttribute("editingTrade", editedTrade);
-//		return "trade/trade-edit-confirm.html";
-//	}
-//
-//	@RequestMapping("/edit/finish")
-//	public String editFinish(TradeEditForm form, Model model) {
-//		Trade trade = new Trade();
-//		BeanUtils.copyProperties(form, trade);
-//		System.out.println("trade:" + trade);
-//		tradeService.updateTrade(trade);
-//		if (session.getAttribute("editingTrade") != null) {
-//			session.removeAttribute("editingTrade");
-//		}
-//		return "redirect:/trade/showDetail?id=" + form.getId();
-//	}
+	@RequestMapping("/showDetail")
+	public String showDetail(Model model, Integer id) {
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Trade trade = tradeService.findById(id, comIdOfUser);
+		System.out.println("trade:"+trade);
+		
+		model.addAttribute("trade", trade);
+		return "trade/trade-detail.html";
+	}
+
+	@RequestMapping("/edit")
+	public String edit(Model model, Integer id) {
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		// 編集しようとしている商品の情報を一緒に表示するためにロード
+		Trade trade = tradeService.findById(id, comIdOfUser);
+		model.addAttribute("trade", trade);
+
+		// 同じ企業の人を選ぶために
+		List<User> userList = userService.findByCompanyId(comIdOfUser);
+		model.addAttribute("userList", userList);
+		
+		// 同じ企業の人が持っている担当者リストを選ぶために
+		List<Contact> contactList = contactService.findByCompanyId(comIdOfUser);
+		model.addAttribute("contactList", contactList);
+
+		// 同じ企業の人を選ぶために
+		List<TradeStatus> statusList = tradeService.getTradeStatusList();
+		model.addAttribute("statusList", statusList);
+
+		return "trade/trade-edit.html";
+	}
+
+	@RequestMapping("/edit/confirm")
+	public String editConfirm(@Validated TradeEditForm form, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return edit(model, form.getId());
+		}
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Trade trade = tradeService.findById(form.getId(), comIdOfUser);
+		
+		Trade editedTrade = tradeService.findById(form.getId(), comIdOfUser);
+		BeanUtils.copyProperties(form, editedTrade);
+		editedTrade.setOwner(userService.findById(form.getOwnerId()));
+		editedTrade.setContact(contactService.findById(form.getContactId(), comIdOfUser));
+		editedTrade.setDate(form.getDateAsSqlDate());
+
+		System.out.println("editedTrade:" + editedTrade);
+
+		model.addAttribute("trade", trade);
+		model.addAttribute("editedTrade", editedTrade);
+		session.setAttribute("editingTrade", editedTrade);
+		return "trade/trade-edit-confirm.html";
+	}
+
+	@RequestMapping("/edit/finish")
+	public String editFinish(TradeEditForm form, Model model) {
+		Trade trade = new Trade();
+		BeanUtils.copyProperties(form, trade);
+		trade.setDate(form.getDateAsSqlDate());
+
+		tradeService.updateTrade(trade);
+		if (session.getAttribute("editingTrade") != null) {
+			session.removeAttribute("editingTrade");
+		}
+		return "redirect:/trade/showDetail?id=" + form.getId();
+	}
 //
 //	@RequestMapping("/delete/confirm")
 //	public String deleteConfirm(Integer id, Model model) {

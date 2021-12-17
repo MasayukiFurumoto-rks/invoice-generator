@@ -44,8 +44,8 @@
               <tr>
                 <th>商談名</th>
 <!--                 <th>与信限度額</th> -->
-<!--                 <th>作成者</th> -->
-<!--                 <th style="width:10%;"></th> -->
+                <th>取引先所有者</th>
+                <th style="width:10%;"></th>
               </tr>
             </thead>
             <tbody>
@@ -64,22 +64,22 @@
 <!--                     >300,000,000円</span -->
 <!--                   > -->
 <!--                 </td> -->
-<!--                 <td class="align-middle"> -->
-<!--                   <a -->
-<!--                     href="user-detail.html" -->
-<!--                     th:href="@{/user/showDetail?id=}+${trade.owner.id}" -->
-<!--                     ><span th:text="${trade.owner.name}">古本昌幸</span> -->
-<!--                   </a> -->
-<!--                 </td> -->
-<!--                 <td class="align-middle"> -->
-<!--                   <a -->
-<!--                     type="button" -->
-<!--                     class="btn btn-primary btn-sm" -->
-<!--                     href="trade-edit.html" -->
-<!--                     th:href="@{/trade/edit?id=}+${trade.id}" -->
-<!--                     >編集/削除 -->
-<!--                   </a> -->
-<!--                 </td> -->
+                <td class="align-middle">
+                  <a
+                    href="user-detail.html"
+                    th:href="@{/user/showDetail?id=}+${trade.owner.id}"
+                    ><span th:text="${trade.owner.name}">古本昌幸</span>
+                  </a>
+                </td>
+                <td class="align-middle">
+                  <a
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    href="trade-edit.html"
+                    th:href="@{/trade/edit?id=}+${trade.id}"
+                    >編集/削除
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
