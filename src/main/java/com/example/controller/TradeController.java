@@ -150,23 +150,23 @@ public class TradeController {
 
 	@RequestMapping("/delete/confirm")
 	public String deleteConfirm(Integer id, Model model) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		Trade trade = tradeService.findById(id, comIdOfUser);
-//		model.addAttribute("trade", trade);
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Trade trade = tradeService.findById(id, comIdOfUser);
+		model.addAttribute("trade", trade);
 		return "trade/trade-delete-confirm.html";
-//
+
 	}
 
 	@RequestMapping("/delete/finish")
 	public String deleteFinish(Integer id, Model model) {
-//		User signInUser = (User) session.getAttribute("user");
-//		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
-//
-//		Trade trade = tradeService.findById(id, comIdOfUser);
-//		trade.setDeleted(true);
-//		tradeService.updateTrade(trade);
+		User signInUser = (User) session.getAttribute("user");
+		Integer comIdOfUser = signInUser.getDepartment().getCompanyId();
+
+		Trade trade = tradeService.findById(id, comIdOfUser);
+		trade.setDeleted(true);
+		tradeService.updateTrade(trade);
 		return "redirect:/trade/showList";
 	}
 
