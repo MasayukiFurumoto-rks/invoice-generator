@@ -6,7 +6,7 @@ user_companies_name text NOT NULL,
 deleted boolean NOT NULL default false
 );
 
-INSERT INTO user_companies(user_companies_name) VALUES ('株式会社ラクスパートナーズ'); 
+INSERT INTO user_companies(user_companies_name) VALUES ('株式会社らくらく顧客管理'); 
 
 DROP TABLE IF EXISTS user_departments;
 CREATE TABLE user_departments(
@@ -53,8 +53,8 @@ FOREIGN KEY (items_owner_id) REFERENCES users(id),
 CONSTRAINT  items_pkey PRIMARY KEY (items_id)
 );
 
-INSERT INTO items(items_name,items_price,items_description ,items_owner_id) VALUES ('楽楽精算1ヶ月プラン',100000,'楽楽精算1ヶ月の料金',1);
-INSERT INTO items(items_name,items_price,items_description ,items_owner_id) VALUES ('楽楽精算1年プラン',1000000,'楽楽精算1年の料金。単月プランよりお得。',1);
+INSERT INTO items(items_name,items_price,items_description ,items_owner_id) VALUES ('らくらく顧客管理1ヶ月プラン',100000,'らくらく顧客管理1ヶ月の料金',1);
+INSERT INTO items(items_name,items_price,items_description ,items_owner_id) VALUES ('らくらく顧客管理1年プラン',1000000,'らくらく顧客管理1年の料金。単月プランよりお得。',1);
 
 DROP TABLE IF EXISTS clients;
 
@@ -73,13 +73,11 @@ clients_deleted boolean NOT NULL default false
 );
 
 INSERT INTO clients(clients_name,clients_zipcode,clients_address,clients_building,clients_telephone,clients_credit_limit,clients_owner_id,clients_remarks) 
-VALUES('株式会社ラクスパートナーズ','160-0022','東京都新宿区新宿4-3-25','TOKYU REIT新宿ビル8F','03-6675-3638',10000000,1,'自社です。');
+VALUES('株式会社らくらく顧客管理','151-0051','東京都渋谷区千駄ヶ谷5-27-5','リンクスクエア新宿16階','03-0000-0000',10000000,1,'自社です。');
 
 INSERT INTO clients(clients_name,clients_zipcode,clients_address,clients_building,clients_telephone,clients_credit_limit,clients_owner_id,clients_remarks) 
-VALUES('株式会社ラクス','151-0051','東京都渋谷区千駄ヶ谷5-27-5','リンクスクエア新宿7階','03-0000-0000',10000000,1,'親会社です。');
+VALUES('先方','151-0051','東京都渋谷区千駄ヶ谷5-27-5','リンクスクエア新宿16階','03-0000-0000',10000000,1,'先方です。');
 
-INSERT INTO clients(clients_name,clients_zipcode,clients_address,clients_building,clients_telephone,clients_credit_limit,clients_owner_id,clients_remarks) 
-VALUES('ポート株式会社','160-0023','東京都新宿区西新宿8-17-1','住友不動産新宿グランドタワー12F','03-0000-0000',999999,1,'古本の前職です。');
 
 DROP TABLE IF EXISTS contacts;
 
@@ -98,7 +96,7 @@ contacts_deleted boolean NOT NULL default false
 );
 
 INSERT INTO contacts (contacts_name,contacts_client_id,contacts_department,contacts_position,contacts_telephone,contacts_email,contacts_owner_id) 
-VALUES ('赤塩勇太',3,'就職支援事業部','','000-0000-0000','yuta.akashio@portport.co.jp',1);
+VALUES ('〇〇',3,'経理部','','000-0000-0000','keiri@keiri.co.jp',1);
 
 
 DROP TABLE IF EXISTS trade_statuses;
@@ -154,7 +152,7 @@ trades_contact_id,
 trades_owner_id,
 trades_remarks
 )
-VALUES('ポート株式会社_20211216_新規取引',1,'2021-12-16',1,1,'初商談です！');
+VALUES('先方株式会社_20211216_新規取引',1,'2021-12-16',1,1,'初商談です！');
 
 
 DROP TABLE IF EXISTS trading_items;
@@ -173,6 +171,6 @@ FOREIGN KEY fk_owner_id(trading_items_owner_id) REFERENCES users(id)
 
 INSERT INTO trading_items(
 trading_items_item_id,trading_items_quantity,trading_items_trade_id,trading_items_remarks,trading_items_owner_id)
-VALUES(1,5,1,'11ヶ月で変えたいらしく、この形で契約となりました。','1');
+VALUES(1,11,1,'11ヶ月で変えたいらしく、この形で契約となりました。','1');
 
 

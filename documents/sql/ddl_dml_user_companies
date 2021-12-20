@@ -1,9 +1,0 @@
-DROP TABLE IF EXISTS user_companies;
-
-CREATE TABLE user_companies(
-id serial NOT NULL,
-name text NOT NULL,
-deleted boolean NOT NULL default false
-);
-
-INSERT INTO user_companies(name) VALUES ('株式会社ラクスパートナーズ'); 
